@@ -1,3 +1,5 @@
+import Company.*;
+import Store.*;
 
 public class main {
 
@@ -5,7 +7,8 @@ public class main {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		//Stuff to write
+		Utils ut= new Utils();
+		
 	}
 
 }
