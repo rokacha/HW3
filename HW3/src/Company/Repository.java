@@ -39,8 +39,8 @@ public class Repository {
 
 	private int locate(String equip) {
 		int place=0;
-		while(place<closet.size() && closet.elementAt(place).getLabel()!=equip) place++;
-		if (place==closet.size())place =-1;
+		while(place<stores.size() && !stores.get(place).getType().equals(equip)) place++;
+		if (place==stores.size())place =-1;
 		return place;
 	}
 	

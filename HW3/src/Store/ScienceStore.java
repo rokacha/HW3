@@ -33,15 +33,15 @@ public class ScienceStore {
 			/* Read Information from files */
 		FDataReader eqReader, scReader, lbReader;
 		
-		eqReader=new FDataReader("EquipmentForSale");
+		eqReader=new FDataReader("EquipmentForSale.txt");
 		while(eqReader.hasNext())
 			EquipmentPack.fromFile(eqReader).putMe(stuff);
 			
-		scReader=new FDataReader("ScientistsForPurchase");
+		scReader=new FDataReader("ScientistsForPurchase.txt");
 		while(scReader.hasNext())
 			Scientist.fromFile(scReader).putMe(dudes);
 			
-		lbReader = new FDataReader("LaboratoriesForSale");
+		lbReader = new FDataReader("LaboratoriesForSale.txt");
 		while(lbReader.hasNext())
 			Laboratory.fromFile(lbReader).putMe(labs);
 	}
@@ -75,16 +75,19 @@ public class ScienceStore {
 	 */
 
 	public EquipmentPack getMeEquipment(String equip, int amount){
-		int i=0;
-		EquipmentPack cmp;
-		while (i<stuff.size()){
-			cmp=(EquipmentPack) stuff.get(i);
-			if (cmp.getName()==equip && cmp.getNumOfItems()>=amount){
-				stuff.remove(i);
-				return cmp;
+		int i=-1;
+		EquipmentPack cmp=null,tmp;
+		boolean found=false;
+		while (i<stuff.size()&&!found){
+			i++;
+			tmp=((EquipmentPack)stuff.get(i));
+			if (tmp.getName().equals(equip) && (tmp.getNumOfItems()>=amount)){
+				cmp=(EquipmentPack) stuff.remove(i);
+				found=true;
 			}
+			
 		}
-		return null;
+		return cmp;
 	}
 	
 	
@@ -116,14 +119,27 @@ public class ScienceStore {
 
 	private ItemInterface getItem(Vector<ItemInterface> itList, String key){
 		int i=0;
-		ItemInterface chItem;
-		while (i<itList.size()){
-			chItem=itList.get(i);
-			if (chItem.returnKey()==key){
+		ItemInterface chItem=null;
+		boolean found=false;
+		while (i<itList.size()&!found){
+			i++;
+			if (itList.get(i).returnKey().equals(key)){
+				chItem=itList.get(i);
 				itList.remove(i);
-				return chItem;
 			}
 		}
-		return null;		// Proper item not found
+		return chItem;		// null if Proper item not found
+	}
+
+	public int getLabsSize() {
+		return labs.size();
+	}
+
+	public int getDudesSize() {
+		return dudes.size();
+	}
+
+	public int getStuffSize() {
+		return stuff.size();
 	}
 }

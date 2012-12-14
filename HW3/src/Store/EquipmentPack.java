@@ -23,24 +23,21 @@ public class EquipmentPack implements ItemInterface {
 	 * Put the laboratory in it's proper place in the list of laboratories
 	 */
 	public void putMe(Vector<ItemInterface> list){
-		// Sort according to amount and then according to cost
-		int i=0;
-		EquipmentPack cmp;
-		while (i<list.size()){
-			cmp=(EquipmentPack)list.get(i);
-			if (numOfItems<cmp.getNumOfItems())
-				break;
-			else if (numOfItems==cmp.getNumOfItems())
-				while (i<list.size()){
-					cmp=(EquipmentPack)list.get(i);
-					if (cost<cmp.getCost())
-						break;
-					i++;
-				}
+		
+	int i=0;
+	boolean found=false;
+	while(i<list.size()&&!found){
+		if(list.elementAt(i).getCost()<cost){
 			i++;
 		}
+		else if (((EquipmentPack)list.elementAt(i)).numOfItems>numOfItems){
+			i++;
+			}
+		else found=true;
 		
-		list.add(i, this);
+	
+	}
+	list.insertElementAt(this, i);
 	}
 	
 	

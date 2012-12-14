@@ -38,7 +38,7 @@ public class testScienceStore {
 	@Test
 	public void testGetMeEquipment() {
 		int before=store.getStuffSize();
-		store.getMeEquipment("Stirrer");
+		store.getMeEquipment("Stirrer",1);
 		int after =store.getStuffSize();
 		assertEquals(before-1,after);
 	}

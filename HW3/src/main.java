@@ -1,6 +1,5 @@
 import Company.*;
 import Store.*;
-import Unused.Utils;
 
 public class main {
 
@@ -8,8 +7,8 @@ public class main {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		Utils ut= new Utils();
-		
+	//	ScienceStore a=new ScienceStore();
+	//	System.out.print(a.toString());
 	}
 
 }
