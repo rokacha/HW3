@@ -34,15 +34,15 @@ public class ScienceStore {
 			/* Read Information from files */
 		FDataReader eqReader, scReader, lbReader;
 		
-		eqReader=new FDataReader("EquipmentForSale");
+		eqReader=new FDataReader("EquipmentForSale.txt");
 		while(eqReader.hasNext())
 			stuff.add(EquipmentPack.fromFile(eqReader));
 			
-		scReader=new FDataReader("ScientistsForPurchase");
+		scReader=new FDataReader("ScientistsForPurchase.txt");
 		while(scReader.hasNext())
 			dudes.add(Scientist.fromFile(scReader));
 			
-		lbReader = new FDataReader("LaboratoriesForSale");
+		lbReader = new FDataReader("LaboratoriesForSale.txt");
 		while(lbReader.hasNext())
 			labs.add(Laboratory.fromFile(lbReader));
 	}
@@ -78,6 +78,15 @@ public class ScienceStore {
 		return (EquipmentPack)getItem(stuff,equip);
 	}
 	
+	public int getLabsSize(){
+		return labs.size() ;	
+	}
+	public int getDudesSize(){
+		return dudes.size() ;	
+	}
+	public int getStuffSize(){
+		return stuff.size() ;	
+	}
 	
 	public String toString(){
 		// This should be a pain..no sanity using it
@@ -106,15 +115,21 @@ public class ScienceStore {
 	
 
 	private ItemInterface getItem(ArrayList<ItemInterface> itList, String key){
-		ItemInterface chItem;
-		Iterator<ItemInterface> it = itList.iterator();
-		while (it.hasNext()){
-			chItem=it.next();
-			if (chItem.returnKey()==key){
-				it.remove();
-				return chItem;
+		
+		
+		
+		ItemInterface item=null;
+		int place=0;
+		boolean found=false;
+		while (place<itList.size()&&!found){
+			place=place+1;
+			if (itList.get(place).returnKey().equals(key)){
+				item=itList.get(place);
+				itList.remove(place);
+				found=true;
 			}
 		}
-		return null;		// Proper item not found
+		return item;		// Proper item not found
 	}
+	
 }
