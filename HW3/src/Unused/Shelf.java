@@ -1,8 +1,9 @@
 /**
  * 
  */
-package Company;
+package Unused;
 import java.util.Vector;
+
 /**
  *this class simulates a storage shelf
  */

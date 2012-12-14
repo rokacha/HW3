@@ -1,7 +1,7 @@
 /**
  * 
  */
-package Company;
+package Unused;
 
 /**
  * this class simulates a piece of equipment

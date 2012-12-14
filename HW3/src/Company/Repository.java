@@ -1,25 +1,35 @@
 package Company;
 import java.lang.String;
-import java.util.Vector;
+import java.util.ArrayList;
+
+import Unused.Equipment;
+import Unused.Shelf;
 
 /**
  * this class holds the information of the equipment the company currently have
  */
 public class Repository {
+	
+	/* Stores the different types of equipment and amounts*/
+	private ArrayList<EquipmentSlot> stores;		
+	
 
-	private Vector<Shelf> closet;
-	
+	/**
+	 * Class Constructor
+	 */
 	public Repository(){
-		closet = new Vector<Shelf>();
-	} 
+		stores=new ArrayList<EquipmentSlot>();
+	}
 	
-	public Equipment dispence(String equip){
-		int place = locate(equip);
-		if (place==-1){
-			newEquip(equip);
-			throw new RuntimeException ("no " + equip + " in stock");
-		}
-		else return closet.elementAt(place).dispence();
+	
+	
+	/**
+	 * 
+	 * @param equip
+	 * @return
+	 */
+	public boolean getEquipment(String equip, int amount){
+		return true;
 	}
 
 	public void newEquip(String equip) {

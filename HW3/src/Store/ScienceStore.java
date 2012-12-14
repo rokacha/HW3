@@ -1,50 +1,72 @@
 package Store;
 
-import java.util.Vector;
-
+import java.util.ArrayList;
+import java.util.Iterator;
+import Parser.FDataReader;
 
 /**
- * this class is a container for all things buyable (equipment packages, scientists, laboratories)
+ * This class is a container for all things purchable item
+ * 		Equipment packages
+ * 		Scientists
+ * 		Laboratories
  *
+ * @author Amit
  */
+
 public class ScienceStore {
 	
-	private Vector<Laboratory> labs;
-	private Vector<Scientist> dudes;
-	private Vector<EquipmentPack> stuff;
+	private ArrayList<ItemInterface> labs;
+	private ArrayList<ItemInterface> dudes;
+	private ArrayList<ItemInterface> stuff;
 	
+	
+	/**
+	 * Class Constructor
+	 * 
+	 * Read the items details from the files and put them in the list.
+	 */
 	public ScienceStore(){
-		labs = new Vector<Laboratory>();
-		dudes = new Vector<Scientist>();
-		stuff = new Vector<EquipmentPack>();
+		labs = new ArrayList<ItemInterface>();
+		dudes = new ArrayList<ItemInterface>();
+		stuff = new ArrayList<ItemInterface>();
+		
+			/* Read Information from files */
+		FDataReader eqReader, scReader, lbReader;
+		
+		eqReader=new FDataReader("EquipmentForSale");
+		while(eqReader.hasNext())
+			stuff.add(EquipmentPack.fromFile(eqReader));
+			
+		scReader=new FDataReader("ScientistsForPurchase");
+		while(scReader.hasNext())
+			dudes.add(Scientist.fromFile(scReader));
+			
+		lbReader = new FDataReader("LaboratoriesForSale");
+		while(lbReader.hasNext())
+			labs.add(Laboratory.fromFile(lbReader));
 	}
-	
-	public void addToStore(Object o){
-		if (o instanceof Laboratory) labs.add((Laboratory)o);
-		else if (o instanceof Scientist)	dudes.add((Scientist)o);
-		else if (o instanceof EquipmentPack) stuff.add((EquipmentPack)o);
-		else throw new RuntimeException ("Not a Valid ScienceStore item");
-	}
+			
 	/**
 	 * 
 	 * @param spec -The specialization of the lab required
 	 * @return a Laboratory class object (new and unused)
+	 * 		null if the required lab does not exist
 	 */
 	public Laboratory getMeLab(String spec){
-		int place = doWeHaveLab(spec);
-		if (place==-1)throw new RuntimeException("Let me see if I have in the back a lab for "+spec+" ... Nope!!!");
-		return labs.remove(place);
+		return (Laboratory)getItem(labs,spec);
 	}
+	
+	
 	/**
 	 * 
 	 * @param spec -The specialization of the Scientist required
 	 * @return a Scientist class object (hard working and obedient)
 	 */
 	public Scientist getMeScientist(String spec){
-		int place = doWeHaveDude(spec);
-		if (place==-1)throw new RuntimeException("Let me see if I have in the back a guy for "+spec+" ... Nope!!!");
-		return dudes.remove(place);
+		return (Scientist)getItem(dudes,spec);
 	}
+	
+	
 	/**
 	 * 
 	 * @param equip -The name of the equipment required
@@ -52,30 +74,46 @@ public class ScienceStore {
 	 */
 
 	public EquipmentPack getMeEquipment(String equip){
-		int place = doWeHaveStuff(equip);
-		if (place==-1)throw new RuntimeException("Let me see if I have in the back a "+equip+" ... Nope!!!");
-		return stuff.remove(place);
+		return (EquipmentPack)getItem(stuff,equip);
 	}
 	
-	private int doWeHaveLab(String spec){
-		int place = 0;
-		while (place<labs.size()&&labs.elementAt(place).getSpec()!=spec)place++;
-		if (place==labs.size())place =-1;
-		return place;
+	
+	public String toString(){
+		// This should be a pain..no sanity using it
+		
+		Iterator<ItemInterface> it; 
+		String str="Science Store\n";
+		
+		str+="\tItems Packs\n";
+		it= stuff.iterator();
+		while (it.hasNext())
+			str=str+"\t\t"+it.next().toString()+"\n";
+		
+		str+="\tLaboratories\n";
+		it= labs.iterator();
+		while (it.hasNext())
+			str=str+"\t\t"+it.next().toString()+"\n";
+		
+		str+="\tScientists\n";
+		it= labs.iterator();
+		while (it.hasNext())
+			str=str+"\t\t"+it.next().toString()+"\n";
+		
+		return str;
+		
 	}
 	
-	private int doWeHaveDude(String spec){
-		int place = 0;
-		while (place<dudes.size()&&dudes.elementAt(place).getSpec()!=spec)place++;
-		if (place==labs.size())place =-1;
-		return place;
+
+	private ItemInterface getItem(ArrayList<ItemInterface> itList, String key){
+		ItemInterface chItem;
+		Iterator<ItemInterface> it = itList.iterator();
+		while (it.hasNext()){
+			chItem=it.next();
+			if (chItem.returnKey()==key){
+				it.remove();
+				return chItem;
+			}
+		}
+		return null;		// Proper item not found
 	}
-	
-	private int doWeHaveStuff(String equip){
-		int place = 0;
-		while (place<stuff.size()&&stuff.elementAt(place).getName()!=equip)place++;
-		if (place==stuff.size())place =-1;
-		return place;
-	}
-	
 }
