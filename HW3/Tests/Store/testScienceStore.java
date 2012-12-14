@@ -12,7 +12,6 @@ public class testScienceStore {
 	@Before
 	public void setUp() throws Exception {
 	store=new ScienceStore();
-	
 	}
 
 	@After
@@ -22,17 +21,26 @@ public class testScienceStore {
 	
 	@Test
 	public void testGetMeLab() {
-		
+		int before=store.getLabsSize();
+		store.getMeLab("Serology");
+		int after =store.getLabsSize();
+		assertEquals(before-1,after);
 	}
 
 	@Test
 	public void testGetMeScientist() {
-		fail("Not yet implemented");
+		int before=store.getDudesSize();
+		store.getMeScientist("Haematology");
+		int after =store.getDudesSize();
+		assertEquals(before-1,after);
 	}
 
 	@Test
 	public void testGetMeEquipment() {
-		fail("Not yet implemented");
+		int before=store.getStuffSize();
+		store.getMeEquipment("Stirrer");
+		int after =store.getStuffSize();
+		assertEquals(before-1,after);
 	}
 
 }
