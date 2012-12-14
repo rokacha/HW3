@@ -1,5 +1,7 @@
 package Store;
 
+import java.util.ArrayList;
+
 import Parser.FDataReader;
 
 /**
@@ -67,5 +69,11 @@ public class Scientist implements ItemInterface {
 	 */
 	public static Scientist fromFile(FDataReader fd){
 		return new Scientist(fd.getString(),fd.getString(),fd.getInt());
+	}
+
+	@Override
+	public void putMe(ArrayList<ItemInterface> Here) {
+		// TODO Auto-generated method stub
+		
 	}
 }

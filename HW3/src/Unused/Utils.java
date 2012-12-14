@@ -105,7 +105,7 @@ public class Utils {
 	private void updateLabs(ScienceStore store, String labs) throws FileNotFoundException {
 		Scanner sc = reader(labs);
 		while (sc.hasNext()){
-			store.addToStore(new Laboratory(sc.next(),sc.next(),sc.nextInt(),sc.nextInt()));
+	//		store.addToStore(new Laboratory(sc.next(),sc.next(),sc.nextInt(),sc.nextInt()));
 		}
 		
 	}
@@ -113,7 +113,7 @@ public class Utils {
 	private void updatePeople(ScienceStore store, String scientists) throws FileNotFoundException {
 		Scanner sc = reader(scientists);
 		while (sc.hasNext()){
-			store.addToStore(new Scientist(sc.next(),sc.next(),sc.nextInt()));
+		//	store.addToStore(new Scientist(sc.next(),sc.next(),sc.nextInt()));
 		}
 		
 	}
@@ -121,7 +121,7 @@ public class Utils {
 	private void updatePacks(ScienceStore store, String packs) throws FileNotFoundException {
 		Scanner sc = reader(packs);
 		while (sc.hasNext()){
-			store.addToStore(new EquipmentPack(sc.next(),sc.nextInt(),sc.nextInt()));
+	//		store.addToStore(new EquipmentPack(sc.next(),sc.nextInt(),sc.nextInt()));
 		}
 		
 	}

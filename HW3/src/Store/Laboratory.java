@@ -3,6 +3,8 @@
  */
 
 package Store;
+import java.util.ArrayList;
+
 import Parser.FDataReader;
 
 public class Laboratory implements ItemInterface {
@@ -86,5 +88,11 @@ public class Laboratory implements ItemInterface {
 	 */
 	public static Laboratory fromFile(FDataReader fd){
 		return new Laboratory(fd.getString(),fd.getString(),fd.getInt(),fd.getInt());
+	}
+
+	@Override
+	public void putMe(ArrayList<ItemInterface> Here) {
+		// TODO Auto-generated method stub
+		
 	}
 }

@@ -1,5 +1,7 @@
 package Store;
 
+import java.util.ArrayList;
+
 import Parser.FDataReader;
 
 /** This class represent an equipment pack
@@ -77,5 +79,12 @@ public class EquipmentPack implements ItemInterface {
 	 */
 	public String toString(){
 		return name+"(" +numOfItems+")";
+	}
+
+
+	@Override
+	public void putMe(ArrayList<ItemInterface> Here) {
+		// TODO Auto-generated method stub
+		
 	}
 }

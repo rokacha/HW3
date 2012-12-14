@@ -21,9 +21,10 @@ public class ScienceStore {
 	
 	
 	/**
-	 * Class Constructor
+	 * Default Class Constructor
+	 * No parameter needed
+	 * Read the items from the files and put them in lists.
 	 * 
-	 * Read the items details from the files and put them in the list.
 	 */
 	public ScienceStore(){
 		labs = new ArrayList<ItemInterface>();
