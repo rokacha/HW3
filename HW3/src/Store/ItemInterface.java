@@ -1,5 +1,5 @@
 package Store;
-import java.util.ArrayList;
+import java.util.Vector;
 
 /**
  * This interface represent any item that can be purchased from the store.
@@ -9,7 +9,14 @@ import java.util.ArrayList;
  */
 public interface ItemInterface {
 	
-	public void putMe(ArrayList<ItemInterface> Here);
+	
+	/**
+	 * Put the item in it's correct place inside itemList
+	 * @param itemList the list list to put the item in
+	 */
+	public void putMe(Vector<ItemInterface> itemList);
+	
+	
 	/**
 	 * Returns the cost of the item
 	 * 
@@ -24,5 +31,5 @@ public interface ItemInterface {
 	 * @return The key string
 	 */
 	public String returnKey();
-
+	
 }

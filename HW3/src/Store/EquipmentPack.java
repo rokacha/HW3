@@ -1,6 +1,6 @@
 package Store;
 
-import java.util.ArrayList;
+import java.util.Vector;
 
 import Parser.FDataReader;
 
@@ -16,8 +16,34 @@ public class EquipmentPack implements ItemInterface {
 	private String name;
 	private int numOfItems;
 	private int cost;
+	private String toStr="";		// A string to return with toString
 	
+	
+	/**
+	 * Put the laboratory in it's proper place in the list of laboratories
+	 */
+	public void putMe(Vector<ItemInterface> list){
+		// Sort according to amount and then according to cost
+		int i=0;
+		EquipmentPack cmp;
+		while (i<list.size()){
+			cmp=(EquipmentPack)list.get(i);
+			if (numOfItems<cmp.getNumOfItems())
+				break;
+			else if (numOfItems==cmp.getNumOfItems())
+				while (i<list.size()){
+					cmp=(EquipmentPack)list.get(i);
+					if (cost<cmp.getCost())
+						break;
+					i++;
+				}
+			i++;
+		}
 		
+		list.add(i, this);
+	}
+	
+	
 	/** 
 	 * Constructor
 	 * 
@@ -75,16 +101,11 @@ public class EquipmentPack implements ItemInterface {
 	}
 	
 	/**
-	 * Implements the toString method. (Java religious fanatics).
+	 * Implements the toString method.
 	 */
 	public String toString(){
-		return name+"(" +numOfItems+")";
-	}
-
-
-	@Override
-	public void putMe(ArrayList<ItemInterface> Here) {
-		// TODO Auto-generated method stub
-		
+		if (toStr=="")
+			toStr=name+"(" +numOfItems+")";
+		return toStr;
 	}
 }

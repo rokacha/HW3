@@ -3,17 +3,57 @@
  */
 
 package Store;
-import java.util.ArrayList;
-
 import Parser.FDataReader;
+import java.util.Vector;
 
 public class Laboratory implements ItemInterface {
 
-	private String head;
-	private String spec;
-	private int scientists;
-	private int cost;
+	/* Private Fields
+	 * ------------------------------------*/
+	private String head;			// Name of head of laboratory
+	private String spec;			// Laboratory specialization
+	private int scientists;			// Number of scientists
+	private int cost;				// Cost
+	private String toStr="";		// A string to return with toString
 	
+	/* Inherited Methods
+	 * ------------------------------------*/
+	/**
+	 * 
+	 * @return The cost of the lab
+	 */
+	public int getCost() {
+		return cost;
+	}
+	
+	
+	/**
+	 * @return the name of the equipment as a key string (implements the interface)
+	 */
+	public String returnKey(){
+		return spec;
+	}
+	
+	
+	/**
+	 * Put the laboratory in it's proper place in the list of laboratories
+	 */
+	public void putMe(Vector<ItemInterface> list){
+		int i=0;
+		Laboratory cmp;
+		while (i<list.size()){
+			cmp=(Laboratory)list.get(i);
+			if (cost<cmp.getCost()){
+				break;
+			}
+			i++;
+		}
+		list.add(i, this);
+	}
+	
+	
+	
+
 	/**
 	 * Constructor
 	 * 
@@ -55,29 +95,14 @@ public class Laboratory implements ItemInterface {
 		return scientists;
 	}
 
-	/**
-	 * 
-	 * @return The cost of the lab
-	 */
-	public int getCost() {
-		return cost;
-	}
-	
-	
-	/**
-	 * @return the name of the equipment as a key string (implements the interface)
-	 */
-	public String returnKey(){
-		return spec;
-	}
-	
-	
 	public String toString(){
-		return 
+		if (this.toStr=="")
+			toStr=
 				spec+" Laboratory, headed by "
 				+head+". Having "
 				+scientists+" scientists and cost "
 				+cost;
+		return toStr;
 	}
 	
 	/**
@@ -88,11 +113,5 @@ public class Laboratory implements ItemInterface {
 	 */
 	public static Laboratory fromFile(FDataReader fd){
 		return new Laboratory(fd.getString(),fd.getString(),fd.getInt(),fd.getInt());
-	}
-
-	@Override
-	public void putMe(ArrayList<ItemInterface> Here) {
-		// TODO Auto-generated method stub
-		
 	}
 }

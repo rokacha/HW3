@@ -56,8 +56,6 @@ public class FDataReader {
 	 * @return true if the scanner has next
 	 */
 	public boolean hasNext(){
-		if (!isOpen)
-			open();
 		return sc.hasNext();
 	}
 	

@@ -1,6 +1,6 @@
 package Store;
 
-import java.util.ArrayList;
+import java.util.Vector;
 
 import Parser.FDataReader;
 
@@ -11,9 +11,50 @@ import Parser.FDataReader;
 
 public class Scientist implements ItemInterface {
 	
+	/* Private Methods
+	 * -------------------------------- */
 	private String name;
 	private String spec;
 	private int cost;
+	private String toStr;
+	
+	
+	/* Interface implementation
+	--------------------------------------*/
+	/**
+	 * Put the person in it's proper place in the list of slaves
+	 */
+	public void putMe(Vector<ItemInterface> list){
+		int i=0;
+		Scientist cmp;
+		while (i<list.size()){
+			cmp=(Scientist)list.get(i);
+			if (cost<cmp.getCost()){
+				break;
+			}
+			i++;
+		}
+		list.add(i, this);
+	}
+	
+	/**
+	 * @return how much you have to pay him
+	 */
+	public int getCost() {
+		return cost;
+	}
+	
+	
+	/**
+	 * @return the name of the equipment as a key string (implements the interface)
+	 */
+	public String returnKey(){
+		return spec;
+	}
+	
+	
+	
+	
 	
 	
 	/**
@@ -43,24 +84,11 @@ public class Scientist implements ItemInterface {
 		return spec;
 	}
 	
-	/**
-	 * @return how much you have to pay him
-	 */
-	public int getCost() {
-		return cost;
-	}
-	
-	
-	/**
-	 * @return the name of the equipment as a key string (implements the interface)
-	 */
-	public String returnKey(){
-		return spec;
-	}
-	
-	
+
 	public String toString(){
-		return name +", a "+spec+" specialist, cost "+cost;
+		if (toStr=="")
+			toStr=name +", a "+spec+" specialist, cost "+cost;
+		return toStr;
 	}
 	/**
 	 * Create a mercenary scientist from the file
@@ -69,11 +97,5 @@ public class Scientist implements ItemInterface {
 	 */
 	public static Scientist fromFile(FDataReader fd){
 		return new Scientist(fd.getString(),fd.getString(),fd.getInt());
-	}
-
-	@Override
-	public void putMe(ArrayList<ItemInterface> Here) {
-		// TODO Auto-generated method stub
-		
 	}
 }

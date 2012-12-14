@@ -1,11 +1,11 @@
 package Store;
 
-import java.util.ArrayList;
+import java.util.Vector;
 import java.util.Iterator;
 import Parser.FDataReader;
 
 /**
- * This class is a container for all things purchable item
+ * This class is a container for all purchable item
  * 		Equipment packages
  * 		Scientists
  * 		Laboratories
@@ -15,36 +15,35 @@ import Parser.FDataReader;
 
 public class ScienceStore {
 	
-	private ArrayList<ItemInterface> labs;
-	private ArrayList<ItemInterface> dudes;
-	private ArrayList<ItemInterface> stuff;
+	private Vector<ItemInterface> labs;
+	private Vector<ItemInterface> dudes;
+	private Vector<ItemInterface> stuff;
 	
 	
 	/**
-	 * Default Class Constructor
-	 * No parameter needed
-	 * Read the items from the files and put them in lists.
+	 * Class Constructor
 	 * 
+	 * Read the items details from the files and put them in the list.
 	 */
 	public ScienceStore(){
-		labs = new ArrayList<ItemInterface>();
-		dudes = new ArrayList<ItemInterface>();
-		stuff = new ArrayList<ItemInterface>();
+		labs = new Vector<ItemInterface>();
+		dudes = new Vector<ItemInterface>();
+		stuff = new Vector<ItemInterface>();
 		
 			/* Read Information from files */
 		FDataReader eqReader, scReader, lbReader;
 		
-		eqReader=new FDataReader("EquipmentForSale.txt");
+		eqReader=new FDataReader("EquipmentForSale");
 		while(eqReader.hasNext())
-			stuff.add(EquipmentPack.fromFile(eqReader));
+			EquipmentPack.fromFile(eqReader).putMe(stuff);
 			
-		scReader=new FDataReader("ScientistsForPurchase.txt");
+		scReader=new FDataReader("ScientistsForPurchase");
 		while(scReader.hasNext())
-			dudes.add(Scientist.fromFile(scReader));
+			Scientist.fromFile(scReader).putMe(dudes);
 			
-		lbReader = new FDataReader("LaboratoriesForSale.txt");
+		lbReader = new FDataReader("LaboratoriesForSale");
 		while(lbReader.hasNext())
-			labs.add(Laboratory.fromFile(lbReader));
+			Laboratory.fromFile(lbReader).putMe(labs);
 	}
 			
 	/**
@@ -70,23 +69,24 @@ public class ScienceStore {
 	
 	/**
 	 * 
-	 * @param equip -The name of the equipment required
+	 * @param equip the name of the equipment required
+	 * @param amount the amount to be returned
 	 * @return an EquipmentPack class object (bill is in the mail)
 	 */
 
-	public EquipmentPack getMeEquipment(String equip){
-		return (EquipmentPack)getItem(stuff,equip);
+	public EquipmentPack getMeEquipment(String equip, int amount){
+		int i=0;
+		EquipmentPack cmp;
+		while (i<stuff.size()){
+			cmp=(EquipmentPack) stuff.get(i);
+			if (cmp.getName()==equip && cmp.getNumOfItems()>=amount){
+				stuff.remove(i);
+				return cmp;
+			}
+		}
+		return null;
 	}
 	
-	public int getLabsSize(){
-		return labs.size() ;	
-	}
-	public int getDudesSize(){
-		return dudes.size() ;	
-	}
-	public int getStuffSize(){
-		return stuff.size() ;	
-	}
 	
 	public String toString(){
 		// This should be a pain..no sanity using it
@@ -114,22 +114,16 @@ public class ScienceStore {
 	}
 	
 
-	private ItemInterface getItem(ArrayList<ItemInterface> itList, String key){
-		
-		
-		
-		ItemInterface item=null;
-		int place=0;
-		boolean found=false;
-		while (place<itList.size()&&!found){
-			place=place+1;
-			if (itList.get(place).returnKey().equals(key)){
-				item=itList.get(place);
-				itList.remove(place);
-				found=true;
+	private ItemInterface getItem(Vector<ItemInterface> itList, String key){
+		int i=0;
+		ItemInterface chItem;
+		while (i<itList.size()){
+			chItem=itList.get(i);
+			if (chItem.returnKey()==key){
+				itList.remove(i);
+				return chItem;
 			}
 		}
-		return item;		// Proper item not found
+		return null;		// Proper item not found
 	}
-	
 }
