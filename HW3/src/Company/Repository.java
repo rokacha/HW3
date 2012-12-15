@@ -2,8 +2,6 @@ package Company;
 import java.lang.String;
 import java.util.ArrayList;
 
-import Unused.Equipment;
-import Unused.Shelf;
 
 /**
  * this class holds the information of the equipment the company currently have
@@ -28,19 +26,25 @@ public class Repository {
 	 * @param equip
 	 * @return
 	 */
-	public boolean getEquipment(String equip, int amount){
+	public synchronized boolean getEquipment(String equip, int amount){
+		int place = locate(equip);
+		if (place == -1) return false;
+		else if (stores.get(place).getAmount()<amount) return false;
+			else stores.get(place).reduce(amount);
 		return true;
 	}
 
-	public void newEquip(String equip) {
-		// TODO Auto-generated method stub
+	public synchronized void newEquip(String equip,int amount) {
+		int place= locate(equip);
+		if (place==-1) stores.add(new EquipmentSlot(equip,amount));
+		else stores.get(place).add(amount);
 		
 	}
 
-	private int locate(String equip) {
+	private synchronized int locate(String equip) {
 		int place=0;
 		while(place<stores.size() && !stores.get(place).getType().equals(equip)) place++;
-		if (place==stores.size())place =-1;
+		if (place==stores.size()) place =-1;
 		return place;
 	}
 	

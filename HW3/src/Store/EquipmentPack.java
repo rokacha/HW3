@@ -16,9 +16,35 @@ public class EquipmentPack implements ItemInterface {
 	private String name;
 	private int numOfItems;
 	private int cost;
-	private String toStr="";		// A string to return with toString
+	private String toStr;		// A string to return with toString
 	
 	
+	/**
+	 * Read an equipment pack from the file -acts as factory
+	 * 
+	 * @param fd 	The FDataReader to be used to get the data
+	 * @return 		The equipment pack
+	 */
+	public static EquipmentPack fromFile(FDataReader fd){
+		return new EquipmentPack(fd.getString(),fd.getInt(),fd.getInt());
+	}
+
+
+	/** 
+	 * Constructor
+	 * 
+	 * @param _name				Name of the item
+	 * @param _numOfItems		Number of items in the pack
+	 * @param _cost				Pack cost
+	 */
+	public EquipmentPack(String _name,int _numOfItems,int _cost){
+		name=_name;
+		numOfItems=_numOfItems;
+		cost=_cost;
+		toStr=null;
+	}
+
+
 	/**
 	 * Put the laboratory in it's proper place in the list of laboratories
 	 */
@@ -38,20 +64,6 @@ public class EquipmentPack implements ItemInterface {
 	
 	}
 	list.insertElementAt(this, i);
-	}
-	
-	
-	/** 
-	 * Constructor
-	 * 
-	 * @param _name				Name of the item
-	 * @param _numOfItems		Number of items in the pack
-	 * @param _cost				Pack cost
-	 */
-	public EquipmentPack(String _name,int _numOfItems,int _cost){
-		name=_name;
-		numOfItems=_numOfItems;
-		cost=_cost;
 	}
 	
 	
@@ -88,20 +100,10 @@ public class EquipmentPack implements ItemInterface {
 	
 	
 	/**
-	 * Read an equipment pack from the file
-	 * 
-	 * @param fd 	The FDataReader to be used to get the data
-	 * @return 		The equipment pack
-	 */
-	public static EquipmentPack fromFile(FDataReader fd){
-		return new EquipmentPack(fd.getString(),fd.getInt(),fd.getInt());
-	}
-	
-	/**
 	 * Implements the toString method.
 	 */
 	public String toString(){
-		if (toStr=="")
+		if (toStr==""|toStr==null)
 			toStr=name+"(" +numOfItems+")";
 		return toStr;
 	}

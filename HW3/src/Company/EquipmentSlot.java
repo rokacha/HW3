@@ -61,4 +61,9 @@ public class EquipmentSlot {
 			return amount;
 		}
 	}
+
+	public String toString() {
+		return "There is "+amount+ " of "+type;
+	}
+	
 }

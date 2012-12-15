@@ -4,6 +4,9 @@ import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.util.Scanner;
+import java.util.Vector;
+
+import Company.EquipmentSlot;
 
 /**
  * This class is used for reading data from files
@@ -16,6 +19,11 @@ import java.util.Scanner;
 
 public class FDataReader {
 
+	private String _filePath;
+	private BufferedReader bfReader;
+	private Scanner sc;
+	private boolean isOpen;
+	
 	/** 
 	 * Class Constructor
 	 * 
@@ -27,6 +35,25 @@ public class FDataReader {
 	}
 	
 	
+	public Vector<EquipmentSlot> getEquipList(){
+		if (!isOpen)
+			open();
+		Vector<EquipmentSlot> ans = new Vector<EquipmentSlot>();
+		while (!sc.hasNextInt()) 	// if the next entry is an int the prerequirement list is done
+			ans.add(new EquipmentSlot(sc.next(),sc.nextInt()));
+		return ans;
+	}
+	
+	
+	public Vector<Integer> getIntVec() {
+		if (!isOpen)
+			open();
+		Vector<Integer> ans = new Vector<Integer>();
+		while (sc.hasNextInt()) ans.add(new Integer(sc.nextInt()));
+		return ans;
+	}
+
+
 	/** 
 	 * Read an integer from the file
 	 * 
@@ -60,7 +87,24 @@ public class FDataReader {
 			open();
 		return sc.hasNext();
 	}
+	/**
+	 * Locates a specific entry in the file, returns true if found
+	 * @param entry - a string to be looked for
+	 * @return boolean (weather found or not)
+	 */
+	public boolean locate(String entry){
+		if (!isOpen)
+			open();
+		String tmp=sc.next();
+		while (sc.hasNext()&&!tmp.equals(entry))tmp=sc.next();
+		return tmp.equals(entry);
+	}
 	
+	public void close(){
+		if (isOpen)
+		sc.close();
+		isOpen=false;
+	}
 	
 	/** 
 	 * Open the file for reading
@@ -78,8 +122,5 @@ public class FDataReader {
 		}
 	}
 	
-	private String _filePath;
-	private BufferedReader bfReader;
-	private Scanner sc;
-	private boolean isOpen;
+
 }

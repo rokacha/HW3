@@ -14,11 +14,12 @@ public class Experiment {
 	private int experimentID;
 	private String specialization;
 	private int runTime;
+	private Vector<EquipmentSlot> equip;
 	private Vector<Integer> prerequirements;
 	private int reward;
 	private int state; //1 - incomplete, 2 - in progress, 3- complete
 	
-public Experiment(int _ID,Vector<Integer> prereq, String _spec,int _time,int _reward){
+public Experiment(int _ID,Vector<Integer> prereq, String _spec,Vector<EquipmentSlot> _equip, int _time,int _reward){
 	
 	experimentID=_ID;
 	specialization=_spec;
@@ -26,6 +27,7 @@ public Experiment(int _ID,Vector<Integer> prereq, String _spec,int _time,int _re
 	reward=_reward;
 	state=1;	
 	prerequirements = prereq;
+	equip =_equip;
 	
 }
 

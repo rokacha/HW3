@@ -19,24 +19,31 @@ public class Scientist implements ItemInterface {
 	private String toStr;
 	
 	
-	/* Interface implementation
-	--------------------------------------*/
 	/**
-	 * Put the person in it's proper place in the list of slaves
+	 * Create a mercenary scientist from the file
+	 * @param fd		The file reader
+	 * @return			A scientist for hire! (Javadoc wonders!)
 	 */
-	public void putMe(Vector<ItemInterface> list){
-		int i=0;
-		Scientist cmp;
-		while (i<list.size()){
-			cmp=(Scientist)list.get(i);
-			if (cost<cmp.getCost()){
-				break;
-			}
-			i++;
-		}
-		list.add(i, this);
+	public static Scientist fromFile(FDataReader fd){
+		return new Scientist(fd.getString(),fd.getString(),fd.getInt());
 	}
-	
+
+
+	/**
+	 * Constructor
+	 * 
+	 * @param name		The name of the scientist
+	 * @param spec		The scientist Specialization
+	 * @param cost		How much we have to pay for him
+	 */
+	public Scientist(String name, String spec, int cost) {
+		this.name = name;
+		this.spec = spec;
+		this.cost = cost;
+		this.toStr=null;
+	}
+
+
 	/**
 	 * @return how much you have to pay him
 	 */
@@ -58,19 +65,6 @@ public class Scientist implements ItemInterface {
 	
 	
 	/**
-	 * Constructor
-	 * 
-	 * @param name		The name of the scientist
-	 * @param spec		The scientist Specialization
-	 * @param cost		How much we have to pay for him
-	 */
-	public Scientist(String name, String spec, int cost) {
-		this.name = name;
-		this.spec = spec;
-		this.cost = cost;
-	}
-	
-	/**
 	 * @return	the name of the scientist
 	 */
 	public String getName() {
@@ -86,16 +80,25 @@ public class Scientist implements ItemInterface {
 	
 
 	public String toString(){
-		if (toStr=="")
+		if (toStr==""|toStr==null)
 			toStr=name +", a "+spec+" specialist, cost "+cost;
 		return toStr;
 	}
+	/* Interface implementation
+	--------------------------------------*/
 	/**
-	 * Create a mercenary scientist from the file
-	 * @param fd		The file reader
-	 * @return			A scientist for hire! (Javadoc wonders!)
+	 * Put the person in it's proper place in the list of slaves
 	 */
-	public static Scientist fromFile(FDataReader fd){
-		return new Scientist(fd.getString(),fd.getString(),fd.getInt());
+	public void putMe(Vector<ItemInterface> list){
+		int i=0;
+		Scientist cmp;
+		while (i<list.size()){
+			cmp=(Scientist)list.get(i);
+			if (cost<cmp.getCost()){
+				break;
+			}
+			i++;
+		}
+		list.add(i, this);
 	}
 }
