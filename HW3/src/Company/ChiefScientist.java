@@ -22,8 +22,8 @@ public class ChiefScientist implements Observer {
 	private Thread bob;
 	
 	
-	public ChiefScientist() {
-		scienceRus= new ScienceStore();
+	public ChiefScientist(String equip,String scien,String laboratories,String initial,String experiments) {
+		scienceRus= new ScienceStore(equip,scien,laboratories);
 		stats= new Statistics();
 		rep= new Repository();
 		bob = new Thread(new ChiefScientistAssistant());

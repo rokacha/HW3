@@ -11,7 +11,7 @@ public class testScienceStore {
 	
 	@Before
 	public void setUp() throws Exception {
-	store=new ScienceStore();
+	store=new ScienceStore("EquipmentForSale.txt","ScientistsForPurchase.txt","LaboratoriesForSale.txt");
 	}
 
 	@After
@@ -21,26 +21,39 @@ public class testScienceStore {
 	
 	@Test
 	public void testGetMeLab() {
+		
 		int before=store.getLabsSize();
-		store.getMeLab("Serology");
+		Laboratory a =store.getMeLab("Serology"); //i know exists in there
 		int after =store.getLabsSize();
 		assertEquals(before-1,after);
+		assertEquals("Serology",a.getSpec());
+		Laboratory b= store.getMeLab("ma sheba lecha"); // i know doesnt exist
+		assertNull(b);
+
+
 	}
 
 	@Test
 	public void testGetMeScientist() {
 		int before=store.getDudesSize();
-		store.getMeScientist("Haematology");
+		Scientist a = store.getMeScientist("Haematology");
 		int after =store.getDudesSize();
 		assertEquals(before-1,after);
+		assertEquals("Haematology",a.getSpec());
+		Scientist b= store.getMeScientist("ma sheba lecha"); // i know doesnt exist
+		assertNull(b);
 	}
 
 	@Test
 	public void testGetMeEquipment() {
 		int before=store.getStuffSize();
-		store.getMeEquipment("Stirrer",1);
+		EquipmentPack a =store.getMeEquipment("Stirrer",1);
 		int after =store.getStuffSize();
 		assertEquals(before-1,after);
+		assertEquals("Stirrer",a.getName());
+		assertTrue(1<=a.getNumOfItems());
+		EquipmentPack b= store.getMeEquipment("Nuclear warhead",1); // i hope its not there
+		assertNull(b);
 	}
 
 }

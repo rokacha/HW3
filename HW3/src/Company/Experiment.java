@@ -23,14 +23,16 @@ public Experiment(int _ID,Vector<Integer> prereq, String _spec,Vector<EquipmentS
 	
 	experimentID=_ID;
 	specialization=_spec;
-	runTime=_time;
+	setRunTime(_time);
 	reward=_reward;
 	state=1;	
 	prerequirements = prereq;
 	equip =_equip;
 	
 }
-
+public int getReward() {
+	return reward;
+}
 public int getID(){
 	return experimentID;
 }
@@ -46,6 +48,14 @@ public Vector<Integer> getPrereq(){
 
 public int getState(){
 	return state;
+}
+
+public int getRunTime() {
+	return runTime;
+}
+
+public void setRunTime(int runTime) {
+	this.runTime = runTime;
 }
 
 public void removePrereq(int id){

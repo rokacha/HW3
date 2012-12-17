@@ -24,8 +24,13 @@ public class ScienceStore {
 	 * Class Constructor
 	 * 
 	 * Read the items details from the files and put them in the list.
+	 *
 	 */
-	public ScienceStore(){
+	/*
+	 * @Pre: none
+	 * @Post: none
+	 */
+	public ScienceStore(String equipFile,String sciFile,String labFile){
 		labs = new Vector<ItemInterface>();
 		dudes = new Vector<ItemInterface>();
 		stuff = new Vector<ItemInterface>();
@@ -33,15 +38,15 @@ public class ScienceStore {
 			/* Read Information from files */
 		FDataReader eqReader, scReader, lbReader;
 		
-		eqReader=new FDataReader("EquipmentForSale.txt");
+		eqReader=new FDataReader(equipFile);
 		while(eqReader.hasNext())
 			EquipmentPack.fromFile(eqReader).putMe(stuff);
 			
-		scReader=new FDataReader("ScientistsForPurchase.txt");
+		scReader=new FDataReader(sciFile);
 		while(scReader.hasNext())
 			Scientist.fromFile(scReader).putMe(dudes);
 			
-		lbReader = new FDataReader("LaboratoriesForSale.txt");
+		lbReader = new FDataReader(labFile);
 		while(lbReader.hasNext())
 			Laboratory.fromFile(lbReader).putMe(labs);
 	}
@@ -52,15 +57,27 @@ public class ScienceStore {
 	 * @return a Laboratory class object (new and unused)
 	 * 		null if the required lab does not exist
 	 */
+	/*
+	 * @pre: none
+	 * @post: if spec exists in labs -> return object with spec as key
+	 * @post: if spec does not exist in labs return null
+	 * @post: if object (not null ) was removed, @Pre:getLabsSize()-1==@Post:getLabsSize()
+	 */
 	public Laboratory getMeLab(String spec){
 		return (Laboratory)getItem(labs,spec);
 	}
-	
 	
 	/**
 	 * 
 	 * @param spec -The specialization of the Scientist required
 	 * @return a Scientist class object (hard working and obedient)
+	 */
+	/*
+	 * @pre: none
+	 * @post: if spec exists in dudes -> return object of type Scientist 
+	 * @post: if spec exists in dudes -> return object with spec as key
+	 * @post: if spec does not exist in dudes return null
+	 * @post: if object (not null ) was removed, @Pre:getDudesSize()-1==@Post:getDudesSize()
 	 */
 	public Scientist getMeScientist(String spec){
 		return (Scientist)getItem(dudes,spec);
@@ -73,7 +90,14 @@ public class ScienceStore {
 	 * @param amount the amount to be returned
 	 * @return an EquipmentPack class object (bill is in the mail)
 	 */
-
+	/*
+	 * @pre: none
+	 * @post: if spec exists in stuff -> return object of type EquipmentPack
+	 * @post: if spec exists in stuff -> return object with spec as key
+	 * @Post: if element was returned -> element.getNumOfItems()>=amount
+	 * @post: if spec does not exist in stuff return null
+	 * @post: if object (not null ) was removed, @Pre:getStuffSize()-1==@Post:getStuffSize()
+	 */
 	public EquipmentPack getMeEquipment(String equip, int amount){
 		int i=0;
 		EquipmentPack cmp=null,tmp;
@@ -89,6 +113,10 @@ public class ScienceStore {
 		}
 		return cmp;
 	}
+	/*
+	 * @Pre:none
+	 * @Post:none
+	 */
 	
 	public String toString(){
 		// This should be a pain..no sanity using it
@@ -114,15 +142,24 @@ public class ScienceStore {
 		return str;
 		
 	}
-	
+	/*
+	 * @Pre:none
+	 * @Post:none
+	 */
 	public int getLabsSize() {
 		return labs.size();
 	}
-
+	/*
+	 * @Pre:none
+	 * @Post:none
+	 */
 	public int getDudesSize() {
 		return dudes.size();
 	}
-
+	/*
+	 * @Pre:none
+	 * @Post:none
+	 */
 	public int getStuffSize() {
 		return stuff.size();
 	}
