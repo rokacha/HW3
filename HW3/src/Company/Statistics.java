@@ -17,7 +17,6 @@ public class Statistics {
 	private Vector<String> equipment;
 	private Vector<String> labs;
 	private Vector<String> doneExp;
-	private Object lock;
 	
 	public Statistics() {
 		gained=0;
@@ -30,49 +29,48 @@ public class Statistics {
 		r.getString();
 		budget = r.getInt();
 		r.close();
-		lock = new Object();
 	}
 	
-	public void iJustSpent(int num){
-		synchronized(lock){
+	public synchronized void iJustSpent(int num){
+
 			spent = spent+num;
 			budget = budget-num;
-		}
+
 		
 	}
 	
 	public void iJustEarned(int num){
-		synchronized(lock){
+
 			gained=gained+num;
 			budget=budget+num;
-		}
+
 	}
 	
 	public void boughtScientist(String sci){
-		synchronized(lock){
+	
 			scientists.add(sci);
-		}
+	
 	}
 	
 	public void boughtEquipment(String equip){
-		synchronized(lock){
+	
 			equipment.add(equip);
-		}
+		
 	}
 	
 	public void boughtLab(String lab){
-		synchronized(lock){
+	
 			labs.add(lab);
-		}
+		
 	}	
 	
 	public void finishedExp(String exp){
-		synchronized(lock){
+		
 			doneExp.add(exp);
-		}
+	
 	}
 	public String toString(){
-		synchronized(lock){
+		
 			
 			StringBuffer sb = new StringBuffer();
 			sb.append("The Statistics are:\n\nFinal Budget: "+budget+"\nSpent Money: "
@@ -86,6 +84,6 @@ public class Statistics {
 			for(int i=0;i<equipment.size();i++) sb.append("\t\t"+equipment.get(i)+"\n");
 			
 			return sb.toString();
-		}
+		
 	}
 }

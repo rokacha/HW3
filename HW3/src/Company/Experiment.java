@@ -23,11 +23,11 @@ public Experiment(int _ID,Vector<Integer> prereq, String _spec,Vector<EquipmentS
 	
 	experimentID=_ID;
 	specialization=_spec;
-	setRunTime(_time);
+	runTime=_time;
 	reward=_reward;
 	state=1;	
 	prerequirements = prereq;
-	equip =_equip;
+	setEquip(_equip);
 	
 }
 public int getReward() {
@@ -54,8 +54,14 @@ public int getRunTime() {
 	return runTime;
 }
 
-public void setRunTime(int runTime) {
-	this.runTime = runTime;
+public Vector<EquipmentSlot> getEquip() {
+	Vector<EquipmentSlot> ans= new Vector<EquipmentSlot>();
+	for(int i=0;i<equip.size();i++)
+		ans.add(new EquipmentSlot(equip.get(i)));
+	return ans;
+}
+public void setState(int _state){
+	if (_state<4&_state>0) this.state=_state;
 }
 
 public void removePrereq(int id){
@@ -67,6 +73,12 @@ public void removePrereq(int id){
 			prerequirements.remove(i);
 		}
 	}
+	
+}
+private void setEquip(Vector<EquipmentSlot> _equip) {
+	
+	while(!_equip.isEmpty())
+	equip.add(_equip.remove(0));
 	
 }
 

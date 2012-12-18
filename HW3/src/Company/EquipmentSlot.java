@@ -1,5 +1,7 @@
 package Company;
 
+import java.util.Vector;
+
 /**
  * This class contains the pair: equipment type, amount
  * @author Hagay
@@ -21,6 +23,13 @@ public class EquipmentSlot {
 		this.amount=amount;
 	}
 	
+
+	public EquipmentSlot(EquipmentSlot equip) {
+		this.type=equip.type;
+		this.amount=equip.amount;
+	}
+
+
 	/**
 	 * Getter
 	 * @return the amount in that store
