@@ -47,5 +47,12 @@ public class Repository {
 		if (place==stores.size()) place =-1;
 		return place;
 	}
+
+
+
+	public boolean returnEquipment(EquipmentSlot name, int amount) {
+		// TODO Auto-generated method stub
+		return true;
+	}
 	
 }

@@ -1,7 +1,5 @@
 package Company;
 
-import java.util.Vector;
-
 /**
  * This class contains the pair: equipment type, amount
  * @author Hagay

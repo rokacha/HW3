@@ -3,34 +3,35 @@
  */
 package Company;
 
-import java.util.Vector;
-import java.util.concurrent.Executor;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
 
 /**
  *this class governs all the activities in a Lab like the running of experiments
  *receiving and assigning new experiments. 
  */
-public class HeadOfLaboratory implements Executor{
+public class HeadOfLaboratory{
 	
 	private String head;
 	private String specialization;
 	private int numOfScientists;
-	private Vector<Thread> running;
-	
-	public HeadOfLaboratory(String head, String specialization,	int numOfScientists) {
+	private ExecutorService exe;
+	private Repository rep;
+	private ChiefScientist chief;
+	public HeadOfLaboratory(String head, String specialization,	int numOfScientists,Repository _rep,ChiefScientist _chief) {
 		this.head = head;
 		this.specialization = specialization;
 		this.numOfScientists = numOfScientists;
-		running= new Vector<Thread>();
+		exe = Executors.newFixedThreadPool(numOfScientists);
+		rep=_rep;
+		chief=_chief;
 	}
 
-	public void execute(Runnable exp) {
-		if ((running.size()-1)<numOfScientists){
-			running.add(new Thread(exp));
-			exp.run();
-		}
-		else throw new RuntimeException ("not enough Scientists in the lab to run "+exp.toString()+" too");
-		
+	public void addExp(Experiment exp) {
+		RunnableExperiment e = new RunnableExperiment(exp,rep);
+		e.addObserver(chief);
+		exe.execute(e);
 	}
 
 	public String getHead() {

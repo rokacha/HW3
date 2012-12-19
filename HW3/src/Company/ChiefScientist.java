@@ -47,7 +47,7 @@ public class ChiefScientist implements Observer {
 				String head=reader.getString();
 				String spec=reader.getString();
 				int numOfScientists=reader.getInt();
-				labs.add(new HeadOfLaboratory(head,spec,numOfScientists));
+				labs.add(new HeadOfLaboratory(head,spec,numOfScientists, rep,this));
 			}
 		}
 		reader.close();

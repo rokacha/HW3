@@ -1,7 +1,6 @@
 import Company.*;
-import Store.*;
 
-public class main {
+public class Main {
 
 	/**
 	 * @param args
