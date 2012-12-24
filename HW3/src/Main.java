@@ -1,5 +1,6 @@
 import Company.*;
 
+
 public class Main {
 
 	/**
@@ -16,6 +17,6 @@ public class Main {
 		st.boughtScientist("scientist blablabla");
 		st.finishedExp("experiment blablabla");
 		System.out.println(st.toString());
-	}
 
+	}
 }

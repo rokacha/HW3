@@ -19,6 +19,7 @@ public class HeadOfLaboratory{
 	private ExecutorService exe;
 	private Repository rep;
 	private ChiefScientist chief;
+	
 	public HeadOfLaboratory(String head, String specialization,	int numOfScientists,Repository _rep,ChiefScientist _chief) {
 		this.head = head;
 		this.specialization = specialization;
@@ -26,6 +27,10 @@ public class HeadOfLaboratory{
 		exe = Executors.newFixedThreadPool(numOfScientists);
 		rep=_rep;
 		chief=_chief;
+	}
+
+	public void shutDown(){
+		exe.shutdown();
 	}
 
 	public void addExp(Experiment exp) {
@@ -45,6 +50,5 @@ public class HeadOfLaboratory{
 	public int getNumOfScientists() {
 		return numOfScientists;
 	}
-	
 	
 }

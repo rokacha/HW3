@@ -18,19 +18,16 @@ public class ScienceStore {
 	private Vector<ItemInterface> labs;
 	private Vector<ItemInterface> dudes;
 	private Vector<ItemInterface> stuff;
-	
-	
+
 	/**
 	 * Class Constructor
 	 * 
 	 * Read the items details from the files and put them in the list.
 	 *
 	 */
-	/*
-	 * @Pre: none
-	 * @Post: none
-	 */
-	public ScienceStore(String equipFile,String sciFile,String labFile){
+
+	public ScienceStore(String EqFilePath, String ScFilePath, String LbFilePath){
+
 		labs = new Vector<ItemInterface>();
 		dudes = new Vector<ItemInterface>();
 		stuff = new Vector<ItemInterface>();
@@ -38,15 +35,19 @@ public class ScienceStore {
 			/* Read Information from files */
 		FDataReader eqReader, scReader, lbReader;
 		
-		eqReader=new FDataReader(equipFile);
+		eqReader=new FDataReader(EqFilePath);
+
 		while(eqReader.hasNext())
 			EquipmentPack.fromFile(eqReader).putMe(stuff);
 			
-		scReader=new FDataReader(sciFile);
+		scReader=new FDataReader(ScFilePath);
+
 		while(scReader.hasNext())
 			Scientist.fromFile(scReader).putMe(dudes);
 			
-		lbReader = new FDataReader(labFile);
+
+		lbReader = new FDataReader(LbFilePath);
+
 		while(lbReader.hasNext())
 			Laboratory.fromFile(lbReader).putMe(labs);
 	}

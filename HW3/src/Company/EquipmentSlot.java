@@ -7,8 +7,11 @@ package Company;
  */
 public class EquipmentSlot {
 
-	private String type;
-	private int amount;
+	private String type;		// The equipment type
+	private int amount;			// The equipment current amount
+	private int total;			// The equipment total amount (including those used right now)
+	
+	
 	
 	/**
 	 * Class Constructor
@@ -19,7 +22,9 @@ public class EquipmentSlot {
 	public EquipmentSlot(String type, int amount){
 		this.type=type;
 		this.amount=amount;
+		this.total=amount;
 	}
+	
 	
 
 	public EquipmentSlot(EquipmentSlot equip) {
@@ -36,6 +41,15 @@ public class EquipmentSlot {
 		return amount;
 	}
 	
+	
+	/**
+	 * Getter
+	 * @return the amount in that store
+	 */
+	public int getTotal(){
+		return total;
+	}
+	
 	/**
 	 * Getter
 	 * @return the type of the equipment in that slot
@@ -46,12 +60,25 @@ public class EquipmentSlot {
 	
 	
 	/**
-	 * add items to the slot
+	 * add items to the slot (either in the building process or by purchase);
 	 * @param a the amount of items to add
 	 */
 	public void add(int a){
 		amount+=a;
+		total+=a;
 	}
+	
+	
+	/**
+	 * Return equipment to the slot
+	 * @param a the amount to be returned
+	 */
+	public void returnEq(int a){
+		amount+=a;
+	}
+
+	
+	
 	
 	/**
 	 * reduce the amount of items in the slot
@@ -69,8 +96,11 @@ public class EquipmentSlot {
 		}
 	}
 
-	public String toString() {
-		return "There is "+amount+ " of "+type;
-	}
 	
+	
+	public String toString(){
+		return type +" :"+amount+" out of:"+total+" units";
+	}
+
 }
+

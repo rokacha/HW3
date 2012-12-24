@@ -12,7 +12,8 @@ import Parser.FDataReader;
 
 public class EquipmentPack implements ItemInterface {
 	
-		/* Private Fields */
+	/* Private Fields
+	 * ------------------------------------*/
 	private String name;
 	private int numOfItems;
 	private int cost;
@@ -45,26 +46,47 @@ public class EquipmentPack implements ItemInterface {
 	}
 
 
+
+	/* Inherited Methods
+	 * ------------------------------------*/
+
 	/**
 	 * Put the laboratory in it's proper place in the list of laboratories
 	 */
+	@Override
 	public void putMe(Vector<ItemInterface> list){
-		
-	int i=0;
-	boolean found=false;
-	while(i<list.size()&&!found){
-		if(list.elementAt(i).getCost()<cost){
-			i++;
-		}
-		else if (((EquipmentPack)list.elementAt(i)).numOfItems>numOfItems){
-			i++;
+		int i=0;
+		boolean found=false;
+		while(i<list.size()&&!found){
+			if(list.elementAt(i).getCost()<cost){
+				i++;
 			}
-		else found=true;
+			else if (((EquipmentPack)list.elementAt(i)).numOfItems>numOfItems){
+				i++;
+				}
+			else found=true;
 		
 	
+		}
+		list.insertElementAt(this, i);
 	}
-	list.insertElementAt(this, i);
-	}
+
+	
+	/**
+	 * @return the name of the equipment as a key string (implements the interface)
+	 */
+	@Override
+	public String returnKey(){
+		return name;
+	}	
+	
+	/**
+	 * @return the cost of the pack (implements the interface)
+	 */
+	@Override
+	public int getCost() {
+		return cost;
+	}	
 	
 	
 	/**
@@ -82,28 +104,13 @@ public class EquipmentPack implements ItemInterface {
 		return numOfItems;
 	}
 
-	
-	/**
-	 * @return the cost of the pack (implements the interface)
-	 */
-	public int getCost() {
-		return cost;
-	}
-	
-	
-	/**
-	 * @return the name of the equipment as a key string (implements the interface)
-	 */
-	public String returnKey(){
-		return name;
-	}
-	
-	
+		
 	/**
 	 * Implements the toString method.
 	 */
 	public String toString(){
-		if (toStr==""|toStr==null)
+
+		if (toStr==(null))
 			toStr=name+"(" +numOfItems+")";
 		return toStr;
 	}

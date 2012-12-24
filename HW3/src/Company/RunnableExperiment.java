@@ -59,7 +59,7 @@ public class RunnableExperiment extends Observable implements Runnable{
 
 	private void returnEquip() {
 		for(int i=0;i<currentEquip.length;i++){
-			currentEquip[i]= !rep.returnEquipment(neededEquip.get(i),neededEquip.get(i).getAmount());	
+			currentEquip[i]= !rep.returnEquipment(neededEquip.get(i).getType(),neededEquip.get(i).getAmount());	
 		}
 		
 		
