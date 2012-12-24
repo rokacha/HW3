@@ -5,7 +5,7 @@ import Parser.FDataReader;
 /**
  * This Class Holds all the data currently Available in the Company Package.
  * Includes: current Budget,money spent,money gained,scientists bought,equipment bought,labs bought,Experiments done.
- * This Class is Thread Safe and can only be updated by one thread at a given time.
+ *This thread does not need thread safety because its only updated from one source.
  * @author amit
  *
  */
@@ -18,20 +18,21 @@ public class Statistics {
 	private Vector<String> labs;
 	private Vector<String> doneExp;
 	
-	public Statistics() {
+	public static Statistics fromFile(FDataReader r){
+		return new Statistics(r.getInt());
+	}
+	
+	public Statistics(int _budget) {
 		gained=0;
 		spent=0;
 		scientists =new Vector<String>();
 		equipment =new Vector<String>();
 		labs =new Vector<String>();
 		doneExp =new Vector<String>();
-		FDataReader r= new FDataReader("InitialData.txt");
-		r.getString();
-		budget = r.getInt();
-		r.close();
+		budget =_budget;
 	}
 	
-	public synchronized void iJustSpent(int num){
+	public void iJustSpent(int num){
 
 			spent = spent+num;
 			budget = budget-num;
@@ -72,7 +73,7 @@ public class Statistics {
 	public String toString(){
 		
 			
-			StringBuffer sb = new StringBuffer();
+			StringBuilder sb = new StringBuilder();
 			sb.append("The Statistics are:\n\nFinal Budget: "+budget+"\nSpent Money: "
 					+spent+"\nEarned Money: "+gained+"\n\nExperiments Done:\n\n");
 			for(int i=0;i<doneExp.size();i++) sb.append("\t"+doneExp.get(i)+"\n");
