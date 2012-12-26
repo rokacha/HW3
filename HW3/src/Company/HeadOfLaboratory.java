@@ -5,6 +5,7 @@ package Company;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
 import Parser.FDataReader;
@@ -50,6 +51,10 @@ public class HeadOfLaboratory{
 		return numOfScientists;
 	}
 
+	public boolean canRun(){
+		return (((ThreadPoolExecutor) exe).getActiveCount() < numOfScientists);
+	}
+
 	public void addExp(Experiment exp) {
 		RunnableExperiment e = new RunnableExperiment(exp,rep);
 		e.addObserver(chief);
@@ -67,6 +72,7 @@ public class HeadOfLaboratory{
 		} catch (InterruptedException ignored) {
 
 		}
+		
 	}
 	
 }
