@@ -17,16 +17,6 @@ public class Scientist implements ItemInterface {
 	private String spec;
 	private int cost;
 	private String toStr;
-	
-	
-	/**
-	 * Create a mercenary scientist from the file
-	 * @param fd		The file reader
-	 * @return			A scientist for hire! (Javadoc wonders!)
-	 */
-	public static Scientist fromFile(FDataReader fd){
-		return new Scientist(fd.getString(),fd.getString(),fd.getInt());
-	}
 
 
 

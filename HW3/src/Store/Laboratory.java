@@ -14,21 +14,8 @@ public class Laboratory implements ItemInterface {
 	private String spec;			// Laboratory specialization
 	private int scientists;			// Number of scientists
 	private int cost;				// Cost
-<<<<<<< HEAD
 	private String toStr;		// A string to return with toString
-=======
-	private String toStr;			// A string to return with toString
->>>>>>> branch 'master' of https://github.com/rokacha/HW3.git
-	
-	/**
-	 * Read a 'for sale' laboratory from the file
-	 * 
-	 * @param fd 	The FDataReader to be used to get the data
-	 * @return 		The laboratory
-	 */
-	public static Laboratory fromFile(FDataReader fd){
-		return new Laboratory(fd.getString(),fd.getString(),fd.getInt(),fd.getInt());
-	}
+
 
 
 	/**
@@ -47,6 +34,7 @@ public class Laboratory implements ItemInterface {
 		this.cost = cost;
 		toStr=null;
 	}
+
 
 
 	/* Inherited Methods
@@ -70,8 +58,7 @@ public class Laboratory implements ItemInterface {
 	}
 	
 	
-<<<<<<< HEAD
-=======
+
 	/**
 	 * Put the laboratory in it's proper place in the list of laboratories
 	 */
@@ -92,24 +79,7 @@ public class Laboratory implements ItemInterface {
 	
 	
 
-	/**
-	 * Constructor
-	 * 
-	 * @param head				Head of the lab name
-	 * @param spec				Lab specialization
-	 * @param scientists		How many scientists comes with the lab
-	 * @param cost				How much it cost
-	 */
-	
-	public Laboratory(String head, String spec, int scientists, int cost) {
-		this.head = head;
-		this.spec = spec;
-		this.scientists = scientists;
-		this.cost = cost;
-		toStr=null;
-	}
 
->>>>>>> branch 'master' of https://github.com/rokacha/HW3.git
 	/**
 	 * 
 	 * @return Name of lab head
@@ -135,29 +105,10 @@ public class Laboratory implements ItemInterface {
 		return scientists;
 	}
 
-	/**
-	 * Put the laboratory in it's proper place in the list of laboratories
-	 */
-	public void putMe(Vector<ItemInterface> list){
-		int i=0;
-		Laboratory cmp;
-		while (i<list.size()){
-			cmp=(Laboratory)list.get(i);
-			if (cost<cmp.getCost()){
-				break;
-			}
-			i++;
-		}
-		list.add(i, this);
-	}
-
-
 	public String toString(){
-<<<<<<< HEAD
 		if (toStr==""|toStr==null)
-=======
-		if (toStr.equals(null))
->>>>>>> branch 'master' of https://github.com/rokacha/HW3.git
+
+
 			toStr=
 				spec+" Laboratory, headed by "
 				+head+". Having "

@@ -23,24 +23,13 @@ public class  Repository {
 	 * @return			the repository
 	 */
 
-	public static Repository fromFile(FDataReader r){
-		Repository theRepository=new Repository();
-		String stopString = "Laboratories";				// When we see that, stop reading
-		String readString=null;							// The string we use to read from the file
-		
-		readString=r.getString();
-		while (!readString.equals(stopString)){
-			theRepository.newEquip(readString, r.getInt());
-			readString=r.getString();
-		}
-		return theRepository;
-	}
+
 	
 	/**
 	 * Class Constructor
 	 */
-	private Repository(){
-		stores=new Vector<EquipmentSlot>();
+	public Repository(Vector<EquipmentSlot> vec){
+		stores=vec;
 	}
 	
 	

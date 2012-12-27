@@ -7,6 +7,7 @@ import java.util.Scanner;
 import java.util.Vector;
 
 import Company.EquipmentSlot;
+import Company.Experiment;
 
 /**
  * This class is used for reading data from files
@@ -35,12 +36,24 @@ public class FDataReader {
 	}
 	
 	
-	public Vector<EquipmentSlot> getEquipList(){
+	
+	public Vector<EquipmentSlot> getRepList(){
 		if (!isOpen)
 			open();
 		Vector<EquipmentSlot> ans = new Vector<EquipmentSlot>();
-		while (!sc.hasNextInt()) 	// if the next entry is an int the prerequirement list is done
-			ans.add(new EquipmentSlot(sc.next(),sc.nextInt()));
+		boolean go=false;
+		String tmpS = sc.next();
+		int tmpI = 0;
+		if (!tmpS.equals("Laboratories")){
+			tmpI=sc.nextInt();
+			go=true;
+		}
+		while (go) {	// if the next entry is an int the prerequirement list is done
+			ans.add(new EquipmentSlot(tmpS,tmpI));
+			tmpS = sc.next();
+			if (sc.hasNextInt()) tmpI=sc.nextInt();
+			go =!tmpS.equals("Laboratories");
+		}
 		return ans;
 	}
 	
@@ -120,6 +133,27 @@ public class FDataReader {
 			sc = new Scanner(bfReader);
 			isOpen=true;
 		}
+	}
+	
+	public Vector<EquipmentSlot> getEquipList(){
+		if (!isOpen)
+			open();
+		Vector<EquipmentSlot> ans = new Vector<EquipmentSlot>();
+		while (!sc.hasNextInt()) 	// if the next entry is an int the prerequirement list is done
+			ans.add(new EquipmentSlot(sc.next(),sc.nextInt()));
+		return ans;
+	}
+	public void changeFile(String file){
+		if (isOpen) close();
+		_filePath=file;
+	}
+
+
+
+	public Vector<Experiment> getExpList() {
+		Vector<Experiment> vec =new Vector<Experiment>();
+		while (sc.hasNext()) vec.add(new Experiment(sc.nextInt(), getIntVec(), sc.next(), getEquipList(), sc.nextInt(), sc.nextInt()));
+		return vec;
 	}
 	
 

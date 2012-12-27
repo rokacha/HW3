@@ -26,30 +26,13 @@ public class ScienceStore {
 	 *
 	 */
 
-	public ScienceStore(String EqFilePath, String ScFilePath, String LbFilePath){
+	public ScienceStore(Vector<ItemInterface> _labs, Vector<ItemInterface> _dudes, Vector<ItemInterface> _stuff){
 
-		labs = new Vector<ItemInterface>();
-		dudes = new Vector<ItemInterface>();
-		stuff = new Vector<ItemInterface>();
+		labs =_labs;
+		dudes = _dudes;
+		stuff = _stuff;
 		
-			/* Read Information from files */
-		FDataReader eqReader, scReader, lbReader;
 		
-		eqReader=new FDataReader(EqFilePath);
-
-		while(eqReader.hasNext())
-			EquipmentPack.fromFile(eqReader).putMe(stuff);
-			
-		scReader=new FDataReader(ScFilePath);
-
-		while(scReader.hasNext())
-			Scientist.fromFile(scReader).putMe(dudes);
-			
-
-		lbReader = new FDataReader(LbFilePath);
-
-		while(lbReader.hasNext())
-			Laboratory.fromFile(lbReader).putMe(labs);
 	}
 			
 	/**

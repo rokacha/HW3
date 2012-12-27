@@ -42,7 +42,12 @@ public class ChiefScientist implements Observer {
 		igor=new ChiefScientistAssistant (theStatistics, expList, theScienceStore, labsList, theRepository);
 	}
 	
-		// 
+		public ChiefScientist(Statistics stats, Vector<Experiment> exp,
+			ScienceStore store, Repository rep) {
+		// TODO Auto-generated constructor stub
+	}
+
+	// 
 	public void update(Observable o, Object report_){
 		
 			// Update the statistics
@@ -66,5 +71,10 @@ public class ChiefScientist implements Observer {
 	
 	public ChiefScientistAssistant thisIsIgor(){
 		return igor;
+	}
+
+	public void addLabList(Vector<HeadOfLaboratory> heads) {
+		// TODO Auto-generated method stub
+		
 	}
 }
