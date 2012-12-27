@@ -8,7 +8,7 @@ package Company;
 public class EquipmentSlot {
 
 	private String type;		// The equipment type
-	private int amount;			// The equipment current amount
+	private int amount;			// The equipment free amount, not included committed equipment
 	private int total;			// The equipment total amount (including those used right now)
 	
 	
@@ -44,7 +44,7 @@ public class EquipmentSlot {
 	
 	/**
 	 * Getter
-	 * @return the amount in that store
+	 * @return the amount in that store + committed to experiments
 	 */
 	public int getTotal(){
 		return total;
@@ -70,30 +70,26 @@ public class EquipmentSlot {
 	
 	
 	/**
-	 * Return equipment to the slot
+	 * Return equipment to the slot. Does not change the amount of free equipment
 	 * @param a the amount to be returned
 	 */
 	public void returnEq(int a){
-		amount+=a;
+		total+=a;
 	}
 
 	
 	
 	
 	/**
-	 * reduce the amount of items in the slot
+	 * get items from the slots. reduce from amount but not from total
 	 * @param r the amount to reduce
 	 * @return the amount left in the slot (after reduction)
 	 */
-	public int reduce(int r){
-		if (r>amount){
-			amount=0;
-			return 0;
-		}
-		else{
-			amount-=r;
-			return amount;
-		}
+	public boolean getEq(int a){
+		if (total<a)
+			return false;			// This actually should never happen
+		amount-=a;
+		return true;
 	}
 
 	

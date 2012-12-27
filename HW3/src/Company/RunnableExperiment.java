@@ -48,6 +48,10 @@ public class RunnableExperiment extends Observable implements Runnable{
 			}
 			returnEquip();
 			accumulatedTime=accumulatedTime+(watch.getTime()-bef)/100;
+			if (timeNeeded>0) try {
+				Thread.sleep(1600);
+			} catch (InterruptedException ignored) {
+			}
 		}
 		doneExpReport a=new doneExpReport(accumulatedTime,exp);
 		setChanged();

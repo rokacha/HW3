@@ -18,14 +18,6 @@ public class  Repository {
 		// Constructor & Factory
 	// ------------------------------------------------------------------------
 	/**
-	 * Class Constructor
-	 */
-	public Repository(){
-		stores=new Vector<EquipmentSlot>();
-	}
-	
-	
-	/**
 	 * Factory. creates a repository from file
 	 * @param r			the file reader to read from
 	 * @return			the repository
@@ -43,6 +35,14 @@ public class  Repository {
 		}
 		return theRepository;
 	}
+	
+	/**
+	 * Class Constructor
+	 */
+	private Repository(){
+		stores=new Vector<EquipmentSlot>();
+	}
+	
 	
 	
 		// Queries
@@ -78,7 +78,7 @@ public class  Repository {
 			return false;			// No such item found
 		if (stores.get(i).getAmount()<amount)
 			return false;			// Not enough items
-		stores.get(i).reduce(amount);
+		stores.get(i).getEq(amount);
 		return true;
 
 		

@@ -52,7 +52,7 @@ public class HeadOfLaboratory{
 	}
 
 	public boolean canRun(){
-		return (((ThreadPoolExecutor) exe).getActiveCount() < numOfScientists);
+		return (((ThreadPoolExecutor) exe).getActiveCount() < numOfScientists); //approximately true
 	}
 
 	public void addExp(Experiment exp) {
@@ -68,7 +68,7 @@ public class HeadOfLaboratory{
 	public void shutDown(){
 		exe.shutdown();
 		try {
-			exe.awaitTermination(1, TimeUnit.SECONDS);
+			exe.awaitTermination(3, TimeUnit.SECONDS);
 		} catch (InterruptedException ignored) {
 
 		}

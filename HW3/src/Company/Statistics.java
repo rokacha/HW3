@@ -10,9 +10,9 @@ import Parser.FDataReader;
  *
  */
 public class Statistics {
-	private int budget;
-	private int gained;
-	private int spent;
+	private double budget;
+	private double gained;
+	private double spent;
 	private Vector<String> scientists;
 	private Vector<String> equipment;
 	private Vector<String> labs;
@@ -40,10 +40,10 @@ public class Statistics {
 		
 	}
 	
-	public void iJustEarned(int num){
+	public void iJustEarned(double d){
 
-			gained=gained+num;
-			budget=budget+num;
+			gained=gained+d;
+			budget=budget+d;
 
 	}
 	

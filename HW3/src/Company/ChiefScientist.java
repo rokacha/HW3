@@ -1,20 +1,17 @@
 package Company;
 
+import java.util.Observable;
+import java.util.Observer;
 import java.util.Vector;
 
 import Store.*;
 
-
-
-
-
-import
 /**
  * 
  * @author amit
  *
  */
-public class ChiefScientist {
+public class ChiefScientist implements Observer {
 	
 		// Private Fields
 	// ------------------------------------
@@ -24,8 +21,11 @@ public class ChiefScientist {
 	private Vector<HeadOfLaboratory> labsList;				// List of labs
 	private Repository theRepository;						// The repository
 	
+	private ChiefScientistAssistant igor;					// There is only one Igor
 	
 	
+		// Constructor
+	// -------------------------------------
 	/**
 	 * Class Constructor
 	 * 
@@ -37,6 +37,34 @@ public class ChiefScientist {
 	 */
 	public ChiefScientist(String iDataPath, String expListPath, String eqSalePath, String scSalePath, String labSalePath){
 		theScienceStore = new ScienceStore(eqSalePath, scSalePath, labSalePath);			// Create the science store
+		
+		
+		igor=new ChiefScientistAssistant (theStatistics, expList, theScienceStore, labsList, theRepository);
+	}
+	
+		// 
+	public void update(Observable o, Object report_){
+		
+			// Update the statistics
+		doneExpReport report= (doneExpReport)report_;			
+		theStatistics.finishedExp(""+report.getId());			// Update: the experiment was done
+		theStatistics.iJustEarned(report.getReward());			// Update: we earned money!
+		
+			// Remove the experiment from the list
+		int i;
+		for (i=0;i<expList.size();i++)
+			if (expList.get(i).getID()==report.getId())
+			{
+				expList.get(i).setState(3);			// Set to complete
+				break;
+			}
+			
+			// Remove requirements
+		for (i=0;i<expList.size();i++)
+			expList.get(i).removePrereq(i);
+	}
+	
+	public ChiefScientistAssistant thisIsIgor(){
+		return igor;
 	}
 }
-
