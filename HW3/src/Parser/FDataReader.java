@@ -89,7 +89,6 @@ public class FDataReader {
 	
 	/** 
 	 * Read a string from the file
-	 * 
 	 * @return The string to be returned
 	 * @throws FileNotFoundException 
 	 *

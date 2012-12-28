@@ -19,19 +19,17 @@ public class RunnableExperiment extends Observable implements Runnable{
 		accumulatedTime=0;
 		timeNeeded=exp.getRunTime();
 		neededEquip=exp.getEquip();
-
-		//currentEquip= new boolean[neededEquip.size()];
 		rep=_rep;
 		watch=new Date();
 		
 	}
 
 
-
 	@Override
 	public void run() {
-		System.out.println("working on exp "+exp.getID());
+		
 		while(timeNeeded>0){
+			System.out.println("working on exp "+exp.getID() + "needed time is"+ timeNeeded);
 			long bef = watch.getTime();
 			getEquip();
 			if (timeNeeded>8) {
@@ -39,6 +37,7 @@ public class RunnableExperiment extends Observable implements Runnable{
 					Thread.sleep(800);
 				} catch (InterruptedException ignored) {
 				}
+				System.out.println("exp "+exp.getID()+" just ran 8 hours--");
 				timeNeeded=timeNeeded-8;
 			}
 			else {
@@ -46,6 +45,7 @@ public class RunnableExperiment extends Observable implements Runnable{
 					Thread.sleep(100*timeNeeded);
 				} catch (InterruptedException ignored) {
 				}
+				System.out.println("exp "+exp.getID()+" just ran "+timeNeeded+" hours");
 				timeNeeded=0;
 			}
 			returnEquip();
@@ -54,56 +54,50 @@ public class RunnableExperiment extends Observable implements Runnable{
 				Thread.sleep(1600);
 			} catch (InterruptedException ignored) {
 			}
+			
 		}
 		doneExpReport a=new doneExpReport(accumulatedTime,exp);
 		setChanged();
+		System.out.println("thread containing exp "+exp.getID()+" just finished");
 		notifyObservers(a);
-
+		
 	}
 
 
 
 	private void getEquip() {
-		for (int i=0;i<=neededEquip.size();i++){
-			
+		synchronized(rep){
+		for (int i=0;i<neededEquip.size();i++){
 				try {
 					while (!rep.getEquipment(neededEquip.get(i).getType(),neededEquip.get(i).getAmount())){
-						System.out.println("cant get equip "+neededEquip.get(i).getType()+ " for exp "+exp.getID());
+						System.out.println("cant get equip "+neededEquip.get(i).getType()+ " for exp "+exp.getID()+" (goes to sleep)");
 						rep.wait();
 					}
 				} catch (InterruptedException e) {
 
 				}
+			//	System.out.println(exp.getID()+"wakes up");
 			}
+		System.out.println("exp "+exp.getID()+" just got equipment");
+		rep.notifyAll();
+		
+		}
 	}
-/*		while(!done){
-			if (!currentEquip[i]){
-				String name= neededEquip.get(i).getType();
-				int amount= neededEquip.get(i).getAmount();
-				currentEquip[i] = rep.getEquipment(name, amount);
-				tmp=tmp&currentEquip[i]; //not good
-			}
-			i++;
-			if (i==neededEquip.size()){
-				i=0;
-				done=tmp;
-				tmp=true;
-			}*/
+
 
 	private void returnEquip() {
-		/*	for(int i=0;i<currentEquip.length;i++){
-			currentEquip[i]= !rep.returnEquipment(neededEquip.get(i).getType(),neededEquip.get(i).getAmount());	
-		}*/
-		for (int i=0;i<=neededEquip.size();i++){
+		synchronized(rep){
+			for (int i=0;i<neededEquip.size();i++){
 			
-			try {
-				while (!rep.returnEquipment(neededEquip.get(i).getType(),neededEquip.get(i).getAmount()))
-					rep.wait();
-			} catch (InterruptedException e) {
-
+				try {
+					while (!rep.returnEquipment(neededEquip.get(i).getType(),neededEquip.get(i).getAmount()))
+						rep.wait();
+				} catch (InterruptedException e) {
+				}
 			}
+			System.out.println("exp "+exp.getID()+" just returned equipment");
+			rep.notifyAll();
 		}
-		
 	}
 
 }

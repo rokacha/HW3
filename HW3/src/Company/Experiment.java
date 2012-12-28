@@ -71,15 +71,8 @@ public void removePrereq(int id){
 		if (prerequirements.elementAt(i).intValue()==id){
 			found=true;
 			prerequirements.remove(i);
+			i++;
 		}
-	}
-	
-}
-private void setEquip(Vector<EquipmentSlot> _equip) {
-	
-	while(!_equip.isEmpty()){
-		EquipmentSlot e = _equip.remove(0);
-		equip.add(e);
 	}
 	
 }

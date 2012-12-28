@@ -44,7 +44,7 @@ public class ChiefScientist implements Observer {
 		
 			// Update the statistics
 		doneExpReport report= (doneExpReport)report_;
-		theStatistics.finishedExp(""+report.getId());			// Update: the experiment was done
+		theStatistics.finishedExp(report.toString());			// Update: the experiment was done
 		theStatistics.iJustEarned(report.getReward());			// Update: we earned money!
 		
 		
@@ -58,8 +58,9 @@ public class ChiefScientist implements Observer {
 			}
 		
 			// Remove requirements
-		for (i=0;i<expList.size();i++)
-			expList.get(i).removePrereq(i);
+		for (int j=0;j<expList.size();j++)
+			expList.get(j).removePrereq(i);
+		System.out.println("chief was updated that "+report.getId()+" was done");
 	}
 	
 	public void run(){

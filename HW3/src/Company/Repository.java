@@ -63,7 +63,6 @@ public class  Repository {
 		if (stores.get(i).getAmount()<amount)
 			return false;			// Not enough items
 		stores.get(i).getEq(amount);
-		notifyAll();
 		return true;
 
 		
@@ -78,7 +77,6 @@ public class  Repository {
 	public synchronized boolean returnEquipment(String equip, int amount){
 		
 		stores.elementAt(locate(equip)).returnEq(amount);
-		notifyAll();			// Wake up all those who wait for the repository
 		return true;
 	}
 	
@@ -95,7 +93,6 @@ public class  Repository {
 			stores.add(new EquipmentSlot(equip,amount));
 		else		 	// Adding to an existing slot
 			stores.elementAt(i).returnEq(amount);
-		notifyAll();
 		return true;
 	}
 	

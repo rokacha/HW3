@@ -39,34 +39,30 @@ public class ChiefScientistAssistant implements Runnable{
 				eqPack=theScienceStore.getMeEquipment(eqType);
 				
 					// If I cannot buy anymore
-				if (eqPack==null){
-					stopCondition=false;
-					break;
+				if (eqPack!=null){
+					d=d-eqPack.getNumOfItems();
+					theStatistics.iJustSpent(eqPack.getCost());
+					theStatistics.boughtEquipment(eqPack.toString());
 				}
-				
-				theStatistics.iJustSpent(eqPack.getCost());
-				theStatistics.boughtEquipment(eqPack.toString());
-				while (!theRepository.newEquip(eqType, eqPack.getNumOfItems()))
-					try {
-						System.out.println("cant store equip "+eqType+" in rep");
-						theRepository.wait();
-					} catch (InterruptedException ignored){
-
+				else break;
+				synchronized(theRepository){
+					while (!theRepository.newEquip(eqType, eqPack.getNumOfItems())){
+						try {
+							System.out.println("cant store equip "+eqType+" in rep");
+							theRepository.wait();
+						} catch (InterruptedException ignored){	}
 					}
-				d=eqList.get(i).getAmount()-theRepository.getAmount(eqType);
+					theRepository.notifyAll();
+				}
 			}
 		}
 		return !stopCondition;
 	}
 	
 	
-	private boolean tryToStart(Experiment exp){
+	private void tryToStart(Experiment exp){
 		HeadOfLaboratory lab=null;								// The laboratory to run it	
 		
-			// Are all requirements fulfilled?
-		if (!exp.getPrereq().isEmpty())
-			return false;							// There are still required previous experiments to run
-	
 			// Do we have the required lab?
 		for (int i=0;i<labsList.size();i++)
 			if (labsList.get(i).getSpecialization().equals(exp.getSpec())){
@@ -79,18 +75,18 @@ public class ChiefScientistAssistant implements Runnable{
 			this.labsList.add(lab);
 			theStatistics.iJustSpent(l.getCost());
 			theStatistics.boughtLab(l.toString());
+		
 		}
-		 if( !lab.canRun()){
-			 return false;
-		 }
-			// Buy the required equipment
-		if (!buyReqEquipment(exp))
-			return false;
-	
+	//	 if( !lab.canRun()){
+	//		 return ;
+	//	 }
+		if (!buyReqEquipment(exp))			// Buy the required equipment
+			return ;
+
 			// Now we can run the experiment
 		exp.setState(2);
 		lab.addExp(exp);
-		return true;
+		return ;
 	}
 	
 	
@@ -99,7 +95,7 @@ public class ChiefScientistAssistant implements Runnable{
 	@Override
 	public void run() {
 		int i;								
-		Experiment exp;						// The experiment to run
+
 		boolean stopFlag=false;				// Are we done running things?
 		
 		while (!stopFlag){
@@ -107,13 +103,13 @@ public class ChiefScientistAssistant implements Runnable{
 			for (i=0;i<expList.size();i++){
 				if (expList.get(i).getState()!=3)
 					stopFlag=false;
-				if (expList.get(i).getState()==1){
-					exp=expList.get(i);
-				tryToStart(exp);	
-				}
+				if (expList.get(i).getState()==1&expList.get(i).getPrereq().isEmpty())
+					tryToStart(expList.get(i));	
 			}
 		}
-
+		for(i=0;i<labsList.size();i++)
+			labsList.get(i).shutDown();
+		System.out.println(theStatistics.toString());
 		// Finished!
 	}
 
