@@ -3,20 +3,22 @@
  */
 
 package Store;
-
 import java.util.Vector;
 
 public class Laboratory implements ItemInterface {
 
-	/* Private Fields
-	 * ------------------------------------*/
+		/* Fields
+	---------------------------------------------------------------------------------*/
 	private String head;			// Name of head of laboratory
 	private String spec;			// Laboratory specialization
 	private int scientists;			// Number of scientists
 	private int cost;				// Cost
-	private String toStr;		// A string to return with toString
-
-
+	private String toStr;			// A string to return with toString
+	
+	
+	
+		/* Constructor
+	----------------------------------------------------------------------------------*/
 
 	/**
 	 * Constructor
@@ -36,9 +38,19 @@ public class Laboratory implements ItemInterface {
 	}
 
 
-
-	/* Inherited Methods
-	 * ------------------------------------*/
+	/* Interface implementations
+	-------------------------------------------------- */
+	public String toString(){
+		if (toStr==null)
+			toStr=
+				spec+" Laboratory, headed by "
+				+head+". Having "
+				+scientists+" scientists and cost "
+				+cost;
+		return toStr;
+	}
+	
+	
 	/**
 	 * 
 	 * @return The cost of the lab
@@ -56,8 +68,6 @@ public class Laboratory implements ItemInterface {
 	public String returnKey(){
 		return spec;
 	}
-	
-	
 
 	/**
 	 * Put the laboratory in it's proper place in the list of laboratories
@@ -77,9 +87,6 @@ public class Laboratory implements ItemInterface {
 	}
 	
 	
-	
-
-
 	/**
 	 * 
 	 * @return Name of lab head
@@ -105,15 +112,4 @@ public class Laboratory implements ItemInterface {
 		return scientists;
 	}
 
-	public String toString(){
-		if (toStr==""|toStr==null)
-
-
-			toStr=
-				spec+" Laboratory, headed by "
-				+head+". Having "
-				+scientists+" scientists and cost "
-				+cost;
-		return toStr;
-	}
 }

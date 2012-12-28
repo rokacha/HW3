@@ -9,7 +9,7 @@ public class EquipmentSlot {
 
 	private String type;		// The equipment type
 	private int amount;			// The equipment free amount, not included committed equipment
-	private int total;			// The equipment total amount (including those used right now)
+
 	
 	
 	
@@ -22,7 +22,7 @@ public class EquipmentSlot {
 	public EquipmentSlot(String type, int amount){
 		this.type=type;
 		this.amount=amount;
-		this.total=amount;
+
 	}
 	
 	
@@ -42,13 +42,7 @@ public class EquipmentSlot {
 	}
 	
 	
-	/**
-	 * Getter
-	 * @return the amount in that store + committed to experiments
-	 */
-	public int getTotal(){
-		return total;
-	}
+
 	
 	/**
 	 * Getter
@@ -57,24 +51,14 @@ public class EquipmentSlot {
 	public String getType(){
 		return type;
 	}
-	
-	
-	/**
-	 * add items to the slot (either in the building process or by purchase);
-	 * @param a the amount of items to add
-	 */
-	public void add(int a){
-		amount+=a;
-		total+=a;
-	}
-	
+
 	
 	/**
 	 * Return equipment to the slot. Does not change the amount of free equipment
 	 * @param a the amount to be returned
 	 */
 	public void returnEq(int a){
-		total+=a;
+		amount+=a;
 	}
 
 	
@@ -86,7 +70,7 @@ public class EquipmentSlot {
 	 * @return the amount left in the slot (after reduction)
 	 */
 	public boolean getEq(int a){
-		if (total<a)
+		if (amount<a)
 			return false;			// This actually should never happen
 		amount-=a;
 		return true;
@@ -95,7 +79,7 @@ public class EquipmentSlot {
 	
 	
 	public String toString(){
-		return type +" :"+amount+" out of:"+total+" units";
+		return type +" :"+amount;
 	}
 
 }

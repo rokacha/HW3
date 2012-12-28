@@ -30,12 +30,13 @@ public class ChiefScientist implements Observer {
 			Repository theRepository){
 		this.theStatistics=theStatistics;
 		this.expList=expList;
-		igor=new ChiefScientistAssistant (theStatistics, expList, theScienceStore, labsList, theRepository);
+		igor=new ChiefScientistAssistant (theStatistics, expList, theScienceStore, labsList, theRepository,this);
 		t=new Thread(igor);
 	}
 	
 	public void addLabList(Vector<HeadOfLaboratory> labsList){
 		this.labsList=labsList;
+		igor.addLabList(labsList);
 	}
 	
 		// 
@@ -46,6 +47,7 @@ public class ChiefScientist implements Observer {
 		theStatistics.finishedExp(""+report.getId());			// Update: the experiment was done
 		theStatistics.iJustEarned(report.getReward());			// Update: we earned money!
 		
+		
 			// Mark as completed
 		int i;
 		for (i=0;i<expList.size();i++)
@@ -54,7 +56,7 @@ public class ChiefScientist implements Observer {
 				expList.get(i).setState(3);			// Set to complete
 				break;
 			}
-			
+		
 			// Remove requirements
 		for (i=0;i<expList.size();i++)
 			expList.get(i).removePrereq(i);

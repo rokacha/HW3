@@ -1,8 +1,7 @@
 package Company;
 
 import java.util.Vector;
-import Store.ScienceStore;
-import Store.EquipmentPack;
+import Store.*;
 
 public class ChiefScientistAssistant implements Runnable{
 
@@ -11,14 +10,16 @@ public class ChiefScientistAssistant implements Runnable{
 	private ScienceStore theScienceStore;					// The science store
 	private Vector<HeadOfLaboratory> labsList;				// List of labs
 	private Repository theRepository;						// The repository
+	private ChiefScientist chief;
 	
 	ChiefScientistAssistant (Statistics theStatistics, Vector<Experiment> expList, ScienceStore theScienceStore, 
-			Vector<HeadOfLaboratory> labsList,Repository theRepository){
+			Vector<HeadOfLaboratory> labsList,Repository theRepository,ChiefScientist _chief){
 		this.theStatistics=theStatistics;
 		this.expList=expList;
 		this.theScienceStore=theScienceStore;
 		this.labsList=labsList;
 		this.theRepository=theRepository;
+		chief=_chief;
 	}
 	
 	
@@ -35,7 +36,7 @@ public class ChiefScientistAssistant implements Runnable{
 			eqType=eqList.get(i).getType();
 			d=eqList.get(i).getAmount()-theRepository.getAmount(eqType);
 			while (d>0){
-				eqPack=theScienceStore.getMeEquipment(eqType, d);
+				eqPack=theScienceStore.getMeEquipment(eqType);
 				
 					// If I cannot buy anymore
 				if (eqPack==null){
@@ -44,7 +45,14 @@ public class ChiefScientistAssistant implements Runnable{
 				}
 				
 				theStatistics.iJustSpent(eqPack.getCost());
-				theRepository.newEquip(eqType, eqPack.getNumOfItems());
+				theStatistics.boughtEquipment(eqPack.toString());
+				while (!theRepository.newEquip(eqType, eqPack.getNumOfItems()))
+					try {
+						System.out.println("cant store equip "+eqType+" in rep");
+						theRepository.wait();
+					} catch (InterruptedException ignored){
+
+					}
 				d=eqList.get(i).getAmount()-theRepository.getAmount(eqType);
 			}
 		}
@@ -60,16 +68,21 @@ public class ChiefScientistAssistant implements Runnable{
 			return false;							// There are still required previous experiments to run
 	
 			// Do we have the required lab?
-		lab=null;
-		int i;
-		for (i=0;i<labsList.size();i++)
-			if (labsList.get(i).getSpecialization().equals(exp.getSpec()) && labsList.get(i).canRun()){
+		for (int i=0;i<labsList.size();i++)
+			if (labsList.get(i).getSpecialization().equals(exp.getSpec())){
 				lab=labsList.get(i);
 				break;
 			}
-		if (lab==null)				// We don't have the lab, buy it
-			theScienceStore.getMeLab(exp.getSpec());
-	
+		if (lab==null){				// We don't have the lab, buy it
+			Laboratory l = theScienceStore.getMeLab(exp.getSpec());
+			lab=new HeadOfLaboratory(l.getHead(),l.getSpec(),l.getScientists(),theRepository,chief);
+			this.labsList.add(lab);
+			theStatistics.iJustSpent(l.getCost());
+			theStatistics.boughtLab(l.toString());
+		}
+		 if( !lab.canRun()){
+			 return false;
+		 }
 			// Buy the required equipment
 		if (!buyReqEquipment(exp))
 			return false;
@@ -102,6 +115,12 @@ public class ChiefScientistAssistant implements Runnable{
 		}
 
 		// Finished!
+	}
+
+
+	public void addLabList(Vector<HeadOfLaboratory> list) {
+		labsList=list;
+		
 	}
 	
 }

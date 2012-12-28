@@ -27,7 +27,7 @@ public Experiment(int _ID,Vector<Integer> prereq, String _spec,Vector<EquipmentS
 	reward=_reward;
 	state=1;	
 	prerequirements = prereq;
-	setEquip(_equip);
+	equip=(_equip);
 	
 }
 public int getReward() {
@@ -77,8 +77,10 @@ public void removePrereq(int id){
 }
 private void setEquip(Vector<EquipmentSlot> _equip) {
 	
-	while(!_equip.isEmpty())
-	equip.add(_equip.remove(0));
+	while(!_equip.isEmpty()){
+		EquipmentSlot e = _equip.remove(0);
+		equip.add(e);
+	}
 	
 }
 

@@ -8,7 +8,6 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
-import Parser.FDataReader;
 
 
 /**
@@ -24,11 +23,6 @@ public class HeadOfLaboratory{
 	private Repository rep;
 	private ChiefScientist chief;
 	
-	public static HeadOfLaboratory fromFile(FDataReader r,Repository rep,ChiefScientist chief){
-		
-		return new HeadOfLaboratory(r.getString(),r.getString(),r.getInt(),rep,chief);
-		
-	}
 	
 	public HeadOfLaboratory(String head, String specialization,	int numOfScientists,Repository _rep,ChiefScientist _chief) {
 		this.head = head;
@@ -60,11 +54,13 @@ public class HeadOfLaboratory{
 		e.addObserver(chief);
 		exe.execute(e);
 	}
+	
 	public void AddScientist(){
 		shutDown();
 		numOfScientists++;
 		exe = Executors.newFixedThreadPool(numOfScientists);
 	}
+	
 	public void shutDown(){
 		exe.shutdown();
 		try {

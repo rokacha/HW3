@@ -1,3 +1,4 @@
+import java.io.FileNotFoundException;
 import java.util.Vector;
 
 import Company.*;
@@ -10,17 +11,21 @@ public class Driver {
 	/**
 	 * @param args - names of files to be read in the following order:
 	 *  initialData,ExperimentsList,EquipmentForSale,ScientistsForSale,LaboratoriesForSale;
+	 * @throws Exception 
 	 */
-	public static void main(String[] args) {
+	public static void main(String[] args) throws Exception {
 		
 		// -----------------parsing----------------------------
 		
-		if (args.length<5) throw new RuntimeException ("Not Enough input arguments");
-		String initialData=args[1];
-		String experiments=args[2];
-		String equipment=args[3];
-		String scientists=args[4];
-		String laboratories=args[5];
+		if (args.length!=5) {
+			System.out.print(args.toString());
+			throw new RuntimeException ("Not Enough input arguments");
+		}
+		String initialData=args[0];
+		String experiments=args[1];
+		String equipment=args[2];
+		String scientists=args[3];
+		String laboratories=args[4];
 		
 		//---------------Making The Science Store----------
 		
@@ -30,22 +35,26 @@ public class Driver {
 		FDataReader r = new FDataReader(equipment);
 		while(r.hasNext())
 			(new EquipmentPack(r.getString(),r.getInt(),r.getInt())).putMe(stuff);
-		r.changeFile(scientists);
+		r = new FDataReader(scientists);
+		
 		while(r.hasNext())
 			(new Scientist(r.getString(),r.getString(),r.getInt())).putMe(dudes);
-		r.changeFile(laboratories);
+		
+		r = new FDataReader(laboratories);
 		while(r.hasNext())
 			(new Laboratory(r.getString(),r.getString(),r.getInt(),r.getInt())).putMe(labs);
-		ScienceStore store = new ScienceStore(stuff,dudes,labs);
+		ScienceStore store;
+		store = new ScienceStore(stuff,dudes,labs);
+
 		
 		//-------------Making The Experiment List---------------
 		
-		r.changeFile(experiments);
+		r = new FDataReader(experiments);
 		Vector<Experiment> exp=r.getExpList();
 		
 		//-------------Making Statistics and Repository-----------------
 		
-		r.changeFile(initialData);
+		r = new FDataReader(initialData);
 		r.getString(); //string should be "Budget"
 		Statistics stats = new Statistics(r.getInt());
 		r.getString(); //String should be "Repository"

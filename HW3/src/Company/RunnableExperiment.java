@@ -10,7 +10,7 @@ public class RunnableExperiment extends Observable implements Runnable{
 	private long accumulatedTime;
 	private int timeNeeded;
 	private final Vector<EquipmentSlot> neededEquip;
-	private boolean[] currentEquip;
+
 	private Repository rep;
 	private Date watch;
 	
@@ -19,7 +19,8 @@ public class RunnableExperiment extends Observable implements Runnable{
 		accumulatedTime=0;
 		timeNeeded=exp.getRunTime();
 		neededEquip=exp.getEquip();
-		currentEquip= new boolean[neededEquip.size()];
+
+		//currentEquip= new boolean[neededEquip.size()];
 		rep=_rep;
 		watch=new Date();
 		
@@ -29,6 +30,7 @@ public class RunnableExperiment extends Observable implements Runnable{
 
 	@Override
 	public void run() {
+		System.out.println("working on exp "+exp.getID());
 		while(timeNeeded>0){
 			long bef = watch.getTime();
 			getEquip();
@@ -62,10 +64,19 @@ public class RunnableExperiment extends Observable implements Runnable{
 
 
 	private void getEquip() {
-		boolean done=false;
-		boolean tmp=true;
-		int i=0;
-		while(!done){
+		for (int i=0;i<=neededEquip.size();i++){
+			
+				try {
+					while (!rep.getEquipment(neededEquip.get(i).getType(),neededEquip.get(i).getAmount())){
+						System.out.println("cant get equip "+neededEquip.get(i).getType()+ " for exp "+exp.getID());
+						rep.wait();
+					}
+				} catch (InterruptedException e) {
+
+				}
+			}
+	}
+/*		while(!done){
 			if (!currentEquip[i]){
 				String name= neededEquip.get(i).getType();
 				int amount= neededEquip.get(i).getAmount();
@@ -77,18 +88,21 @@ public class RunnableExperiment extends Observable implements Runnable{
 				i=0;
 				done=tmp;
 				tmp=true;
-			}
-		}
-		
-	}
-
-
+			}*/
 
 	private void returnEquip() {
-		for(int i=0;i<currentEquip.length;i++){
+		/*	for(int i=0;i<currentEquip.length;i++){
 			currentEquip[i]= !rep.returnEquipment(neededEquip.get(i).getType(),neededEquip.get(i).getAmount());	
+		}*/
+		for (int i=0;i<=neededEquip.size();i++){
+			
+			try {
+				while (!rep.returnEquipment(neededEquip.get(i).getType(),neededEquip.get(i).getAmount()))
+					rep.wait();
+			} catch (InterruptedException e) {
+
+			}
 		}
-		
 		
 	}
 

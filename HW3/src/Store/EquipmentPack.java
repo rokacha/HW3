@@ -2,8 +2,6 @@ package Store;
 
 import java.util.Vector;
 
-import Parser.FDataReader;
-
 /** This class represent an equipment pack
  * 
  * @author Amit
@@ -12,24 +10,17 @@ import Parser.FDataReader;
 
 public class EquipmentPack implements ItemInterface {
 	
-	/* Private Fields
-	 * ------------------------------------*/
+				/* Fields
+	---------------------------------------------*/
 	private String name;
 	private int numOfItems;
 	private int cost;
 	private String toStr;		// A string to return with toString
 	
 	
-	/**
-	 * Read an equipment pack from the file -acts as factory
-	 * 
-	 * @param fd 	The FDataReader to be used to get the data
-	 * @return 		The equipment pack
-	 */
-	public static EquipmentPack fromFile(FDataReader fd){
-		return new EquipmentPack(fd.getString(),fd.getInt(),fd.getInt());
-	}
-
+	
+				/* Constructor
+	---------------------------------------------*/
 
 	/** 
 	 * Constructor
@@ -49,7 +40,14 @@ public class EquipmentPack implements ItemInterface {
 
 	/* Inherited Methods
 	 * ------------------------------------*/
+	public String toString(){
 
+		if (toStr==(null))
+			toStr=name+"(" +numOfItems+")";
+		return toStr;
+	}
+	
+	
 	/**
 	 * Put the laboratory in it's proper place in the list of laboratories
 	 */
@@ -89,6 +87,9 @@ public class EquipmentPack implements ItemInterface {
 	}	
 	
 	
+	
+			/* Getters / Setters
+	------------------------------------------------------------*/
 	/**
 	 * @return return the name
 	 */
@@ -104,14 +105,4 @@ public class EquipmentPack implements ItemInterface {
 		return numOfItems;
 	}
 
-		
-	/**
-	 * Implements the toString method.
-	 */
-	public String toString(){
-
-		if (toStr==(null))
-			toStr=name+"(" +numOfItems+")";
-		return toStr;
-	}
 }

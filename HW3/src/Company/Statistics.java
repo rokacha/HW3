@@ -1,7 +1,7 @@
 package Company;
 
 import java.util.Vector;
-import Parser.FDataReader;
+
 /**
  * This Class Holds all the data currently Available in the Company Package.
  * Includes: current Budget,money spent,money gained,scientists bought,equipment bought,labs bought,Experiments done.
@@ -17,11 +17,7 @@ public class Statistics {
 	private Vector<String> equipment;
 	private Vector<String> labs;
 	private Vector<String> doneExp;
-	
-	public static Statistics fromFile(FDataReader r){
-		return new Statistics(r.getInt());
-	}
-	
+
 	public Statistics(int _budget) {
 		gained=0;
 		spent=0;

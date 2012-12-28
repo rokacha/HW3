@@ -1,8 +1,6 @@
 package Company;
 import java.lang.String;
-
 import java.util.Vector;
-
 
 
 /**
@@ -14,7 +12,6 @@ public class  Repository {
 	private Vector<EquipmentSlot> stores;		// The equipment currently in stores
 	
 
-	
 		// Constructor & Factory
 	// ------------------------------------------------------------------------
 	/**
@@ -23,7 +20,6 @@ public class  Repository {
 	 * @return			the repository
 	 */
 
-
 	
 	/**
 	 * Class Constructor
@@ -31,7 +27,6 @@ public class  Repository {
 	public Repository(Vector<EquipmentSlot> vec){
 		stores=vec;
 	}
-	
 	
 	
 		// Queries
@@ -68,6 +63,7 @@ public class  Repository {
 		if (stores.get(i).getAmount()<amount)
 			return false;			// Not enough items
 		stores.get(i).getEq(amount);
+		notifyAll();
 		return true;
 
 		
@@ -82,22 +78,25 @@ public class  Repository {
 	public synchronized boolean returnEquipment(String equip, int amount){
 		
 		stores.elementAt(locate(equip)).returnEq(amount);
+		notifyAll();			// Wake up all those who wait for the repository
 		return true;
 	}
 	
-	
+
 
 	/**
 	 * Add new equipment to the stores (either adding to the existing stores or creates a new slot)
 	 * @param equip the equipment type
 	 * @param amount the amount to add
 	 */
-	public synchronized void newEquip(String equip, int amount) {
+	public synchronized boolean newEquip(String equip, int amount) {
 		int i=locate(equip);
 		if (i==-1)			// Creating a new slot
 			stores.add(new EquipmentSlot(equip,amount));
 		else		 	// Adding to an existing slot
-			stores.elementAt(i).add(amount);
+			stores.elementAt(i).returnEq(amount);
+		notifyAll();
+		return true;
 	}
 	
 	

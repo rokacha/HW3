@@ -2,7 +2,6 @@ package Store;
 
 import java.util.Vector;
 
-
 /**
  * @author Amit
  */
@@ -10,41 +9,20 @@ import java.util.Vector;
 
 public class Scientist implements ItemInterface {
 	
-	/* Private Methods
-	 * -------------------------------- */
+			/* Private Methods
+	-------------------------------------------------- */
 	private String name;
 	private String spec;
 	private int cost;
 	private String toStr;
-
-
-
-	/**
-	 * @return how much you have to pay him
-	 */
-	@Override
-	public int getCost() {
-		return cost;
-	}
 	
+	
+	
+			/* Constructors
+	-------------------------------------------------- */
 	
 	/**
-	 * @return the name of the equipment as a key string (implements the interface)
-	 */
-	@Override
-	public String returnKey(){
-		return spec;
-	}
-	
-	
-	
-	
-	
-	
-	/**
-<<<<<<< HEAD
-=======
-	 * Constructor
+	 * Constructor (hidden)
 	 * 
 	 * @param name		The name of the scientist
 	 * @param spec		The scientist Specialization
@@ -57,22 +35,11 @@ public class Scientist implements ItemInterface {
 		toStr=null;
 	}
 	
-	/**
->>>>>>> branch 'master' of https://github.com/rokacha/HW3.git
-	 * @return	the name of the scientist
-	 */
-	public String getName() {
-		return name;
-	}
 	
-	/**
-	 * @return the specialization of the scientist
-	 */
-	public String getSpec() {
-		return spec;
-	}
 	
-
+	/* Interface implementations
+-------------------------------------------------- */	
+	
 	public String toString(){
 
 		if (toStr==(null))
@@ -80,11 +47,30 @@ public class Scientist implements ItemInterface {
 			toStr=name +", a "+spec+" specialist, cost "+cost;
 		return toStr;
 	}
-	/* Interface implementation
-	--------------------------------------*/
+	
+	
+	/**
+	 * @return how much you have to pay him
+	 */
+	@Override
+	public int getCost() {
+		return cost;
+	}
+	
+		
+	/**
+	 * @return the name of the equipment as a key string (implements the interface)
+	 */
+	@Override
+	public String returnKey(){
+		return spec;
+	}
+	
+	
 	/**
 	 * Put the person in it's proper place in the list of slaves
 	 */
+	@Override
 	public void putMe(Vector<ItemInterface> list){
 		int i=0;
 		Scientist cmp;
@@ -96,5 +82,25 @@ public class Scientist implements ItemInterface {
 			i++;
 		}
 		list.add(i, this);
+	}
+	
+	
+	
+			/* Getters / Setters
+	---------------------------------------------------------*/
+	
+	/**
+	 * @return	the name of the scientist
+	 */
+	public String getName() {
+		return name;
+	}	
+	
+	
+	/**
+	 * @return the specialization of the scientist
+	 */
+	public String getSpec() {
+		return spec;
 	}
 }
