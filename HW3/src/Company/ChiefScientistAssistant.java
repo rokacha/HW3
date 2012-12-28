@@ -52,41 +52,56 @@ public class ChiefScientistAssistant implements Runnable{
 	}
 	
 	
+	private boolean tryToStart(Experiment exp){
+		HeadOfLaboratory lab=null;								// The laboratory to run it	
+		
+			// Are all requirements fulfilled?
+		if (!exp.getPrereq().isEmpty())
+			return false;							// There are still required previous experiments to run
+	
+			// Do we have the required lab?
+		lab=null;
+		int i;
+		for (i=0;i<labsList.size();i++)
+			if (labsList.get(i).getSpecialization().equals(exp.getSpec()) && labsList.get(i).canRun()){
+				lab=labsList.get(i);
+				break;
+			}
+		if (lab==null)				// We don't have the lab, buy it
+			theScienceStore.getMeLab(exp.getSpec());
+	
+			// Buy the required equipment
+		if (!buyReqEquipment(exp))
+			return false;
+	
+			// Now we can run the experiment
+		exp.setState(2);
+		lab.addExp(exp);
+		return true;
+	}
+	
+	
 	
 	
 	@Override
 	public void run() {
-		int i,j;								// Indexes: experiments, labs.
-		Experiment exp;											// The experiment to run
-		HeadOfLaboratory lab=null;								// The laboratory to run it						
+		int i;								
+		Experiment exp;						// The experiment to run
+		boolean stopFlag=false;				// Are we done running things?
 		
-		for (i=0;i<expList.size();i++){
-			if (expList.get(i).getState()==1){
-				exp=expList.get(i);
-				
-					// Are all requirements fulfilled?
-				if (!exp.getPrereq().isEmpty())
-					break;					// There are still required previous experiments to run
-				
-					// Do we have the required lab?
-				lab=null;
-				for (j=0;j<labsList.size();j++)
-					if (labsList.get(j).getSpecialization().equals(exp.getSpec()) && labsList.get(j).canRun()){
-						lab=labsList.get(j);
-							break;
-						}
-				if (lab==null)				// We don't have the lab, buy it
-					theScienceStore.getMeLab(exp.getSpec());
-				
-					// Buy the required equipment
-				if (!buyReqEquipment(exp))
-					break;					// We don't have enough in the repository yet
-				
-					// Now we can run the experiment
-				lab.addExp(exp);
+		while (!stopFlag){
+			stopFlag=true;
+			for (i=0;i<expList.size();i++){
+				if (expList.get(i).getState()!=3)
+					stopFlag=false;
+				if (expList.get(i).getState()==1){
+					exp=expList.get(i);
+				tryToStart(exp);	
+				}
 			}
 		}
-		
+
+		// Finished!
 	}
 	
 }

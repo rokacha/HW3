@@ -2,7 +2,6 @@ package Store;
 
 import java.util.Vector;
 
-import Parser.FDataReader;
 
 /**
  * @author Amit

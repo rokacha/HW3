@@ -3,7 +3,7 @@
  */
 
 package Store;
-import Parser.FDataReader;
+
 import java.util.Vector;
 
 public class Laboratory implements ItemInterface {

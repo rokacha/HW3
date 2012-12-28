@@ -2,7 +2,6 @@ package Store;
 
 import java.util.Vector;
 import java.util.Iterator;
-import Parser.FDataReader;
 
 /**
  * This class is a container for all purchasable item

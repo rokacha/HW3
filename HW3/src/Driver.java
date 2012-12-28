@@ -15,12 +15,12 @@ public class Driver {
 		
 		// -----------------parsing----------------------------
 		
-		if (args.length<6) throw new RuntimeException ("Not Enough input arguments");
-		String initialData=args[2];
-		String experiments=args[3];
-		String equipment=args[4];
-		String scientists=args[5];
-		String laboratories=args[6];
+		if (args.length<5) throw new RuntimeException ("Not Enough input arguments");
+		String initialData=args[1];
+		String experiments=args[2];
+		String equipment=args[3];
+		String scientists=args[4];
+		String laboratories=args[5];
 		
 		//---------------Making The Science Store----------
 		
