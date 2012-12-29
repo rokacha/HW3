@@ -142,7 +142,9 @@ public class FDataReader {
 			String type = tmp.substring(0, tmp.indexOf(','));
 			int amount = (new Integer(tmp.substring( tmp.indexOf(',')+1))).intValue();
 			EquipmentSlot e = new EquipmentSlot(type,amount);
-			ans.add(e);
+			int i =0;
+			while (!ans.isEmpty()&&i<ans.size()&&e.getType().compareTo(ans.get(i).getType())>0)i++;
+			ans.add(i,e);
 		}
 		return ans;
 	}
@@ -159,7 +161,6 @@ public class FDataReader {
 			Vector<EquipmentSlot> needed= getEquipList();
 			int time = sc.nextInt();
 			int reward =  sc.nextInt();
-			
 			vec.add(new Experiment(id, preq, spec,needed,time ,reward));
 		}
 		return vec;

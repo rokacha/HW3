@@ -15,7 +15,8 @@ public class Experiment {
 	private String specialization;
 	private int runTime;
 	private Vector<EquipmentSlot> equip;
-	private Vector<Integer> prerequirements;
+	private Vector<Integer> preq;
+	private Vector<Integer> constPreq;
 	private int reward;
 	private int state; //1 - incomplete, 2 - in progress, 3- complete
 	
@@ -26,8 +27,12 @@ public Experiment(int _ID,Vector<Integer> prereq, String _spec,Vector<EquipmentS
 	runTime=_time;
 	reward=_reward;
 	state=1;	
-	prerequirements = prereq;
+	preq = prereq;
 	equip=(_equip);
+	constPreq=new Vector<Integer>();
+	if (!preq.isEmpty())
+		for (int i=0;i<preq.size();i++) 
+			constPreq.add(new Integer(preq.get(i)));
 	
 }
 public int getReward() {
@@ -42,7 +47,7 @@ public String getSpec(){
 }
 
 public Vector<Integer> getPrereq(){
-	Vector<Integer> vec =new Vector<Integer>(prerequirements);
+	Vector<Integer> vec =new Vector<Integer>(preq);
 	return vec;
 }
 
@@ -67,14 +72,25 @@ public void setState(int _state){
 public void removePrereq(int id){
 	int i=0;
 	boolean found = false;
-	while (i<prerequirements.size()&&!found){
-		if (prerequirements.elementAt(i).intValue()==id){
+	while (i<preq.size()&&!found){
+		if (preq.elementAt(i).intValue()==id){
 			found=true;
-			prerequirements.remove(i);
-			i++;
+			preq.remove(i);
 		}
+		i++;
 	}
 	
+}
+public String getConstPreq() {
+	StringBuilder sb =new StringBuilder();
+	if (!constPreq.isEmpty()){
+		for (int i=0;i<constPreq.size();i++){
+			sb.append(constPreq.get(i));
+			if (i<constPreq.size()-1) sb.append(" , ");
+		}
+	}
+	else sb.append("None");
+	return sb.toString();
 }
 
 }

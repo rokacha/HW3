@@ -2,17 +2,16 @@ package Company;
 
 import java.util.Observable;
 import java.util.Vector;
-import java.util.Date;
+
 
 public class RunnableExperiment extends Observable implements Runnable{
 
 	private Experiment exp;
-	private long accumulatedTime;
+	private double accumulatedTime;
 	private int timeNeeded;
 	private final Vector<EquipmentSlot> neededEquip;
 
 	private Repository rep;
-	private Date watch;
 	
 	public RunnableExperiment(Experiment _exp,Repository _rep) {
 		this.exp = _exp;
@@ -20,7 +19,6 @@ public class RunnableExperiment extends Observable implements Runnable{
 		timeNeeded=exp.getRunTime();
 		neededEquip=exp.getEquip();
 		rep=_rep;
-		watch=new Date();
 		
 	}
 
@@ -30,7 +28,7 @@ public class RunnableExperiment extends Observable implements Runnable{
 		
 		while(timeNeeded>0){
 			System.out.println("working on exp "+exp.getID() + "needed time is"+ timeNeeded);
-			long bef = watch.getTime();
+			long bef = System.currentTimeMillis();
 			getEquip();
 			if (timeNeeded>8) {
 				try {
@@ -49,14 +47,15 @@ public class RunnableExperiment extends Observable implements Runnable{
 				timeNeeded=0;
 			}
 			returnEquip();
-			accumulatedTime=accumulatedTime+(watch.getTime()-bef)/100;
+			long after =System.currentTimeMillis();
+			accumulatedTime=accumulatedTime+((double)(after-bef))/100;
 			if (timeNeeded>0) try {
 				Thread.sleep(1600);
 			} catch (InterruptedException ignored) {
 			}
 			
 		}
-		doneExpReport a=new doneExpReport(accumulatedTime,exp);
+		doneExpReport a=new doneExpReport(accumulatedTime,exp,exp.getConstPreq());
 		setChanged();
 		System.out.println("thread containing exp "+exp.getID()+" just finished");
 		notifyObservers(a);

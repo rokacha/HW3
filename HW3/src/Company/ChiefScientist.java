@@ -59,7 +59,7 @@ public class ChiefScientist implements Observer {
 		
 			// Remove requirements
 		for (int j=0;j<expList.size();j++)
-			expList.get(j).removePrereq(i);
+			expList.get(j).removePrereq(report.getId());
 		System.out.println("chief was updated that "+report.getId()+" was done");
 	}
 	

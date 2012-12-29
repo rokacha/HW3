@@ -2,24 +2,26 @@ package Company;
 
 public class doneExpReport {
 	private final int id;
-	private final long timeTaken;
-	private final long timeNeeded;
+	private final double timeTaken;
+	private final double timeNeeded;
 	private final double reward;
+	private final String preq;
 	
-	public doneExpReport(long timeTaken,Experiment exp) {
+	public doneExpReport(double accumulatedTime,Experiment exp,String _preq) {
 		timeNeeded = exp.getRunTime();
 		id = exp.getID();
-		this.timeTaken = timeTaken;
-		if (timeNeeded*1.15>timeTaken) reward = 0.1*exp.getReward();
+		this.timeTaken = accumulatedTime;
+		if (timeNeeded*1.15<accumulatedTime) reward = 0.1*exp.getReward();
 		else reward = exp.getReward();
+		preq=_preq;
 	}
 	public int getId() {
 		return id;
 	}
-	public long getTimeTaken() {
+	public double getTimeTaken() {
 		return timeTaken;
 	}
-	public long getTimeNeeded() {
+	public double getTimeNeeded() {
 		return timeNeeded;
 	}
 	public double getReward() {
@@ -27,8 +29,8 @@ public class doneExpReport {
 	}
 	public String toString(){
 		
-		return "Experiment: "+id+"\tTimeNeeded: "+timeNeeded+
-				"\tTime actually taken: "+timeTaken+"\tRewarded: "+reward;
+		return "Experiment: "+id+" Requireded Experiments: "+preq+" \tTimeNeeded: "+timeNeeded+
+				" \tTime actually taken: "+timeTaken+" \tRewarded: "+reward;
 	}
 	
 }
